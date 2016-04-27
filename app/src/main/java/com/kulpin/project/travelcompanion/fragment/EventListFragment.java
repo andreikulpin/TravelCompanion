@@ -3,7 +3,6 @@ package com.kulpin.project.travelcompanion.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -35,7 +34,7 @@ public class EventListFragment extends TabFragment{
 
     private Context context;
     private View view;
-    private EventListAdapter adapter;
+    private EventListAdapter eventListAdapter;
     private List<EventDTO> list;
 
     /*public static EventListFragment getInstance(Context context){
@@ -54,8 +53,8 @@ public class EventListFragment extends TabFragment{
         //list = createMockEventListData();
         RecyclerView rv = (RecyclerView)view.findViewById(R.id.recycleView);
         rv.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new EventListAdapter(list, getActivity());
-        rv.setAdapter(adapter);
+        eventListAdapter = new EventListAdapter(list, getActivity());
+        rv.setAdapter(eventListAdapter);
         syncEventList();
         return view;
     }
@@ -80,7 +79,7 @@ public class EventListFragment extends TabFragment{
                         e.printStackTrace();
                     }
                 }
-                adapter.notifyDataSetChanged();
+                eventListAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -129,8 +128,8 @@ public class EventListFragment extends TabFragment{
     }
 
     public void deleteEvent(long eventId){
-        if (list.isEmpty()) return;
-        eventId = list.get(list.size() - 1).getId();
+        //if (list.isEmpty()) return;
+        //eventId = list.get(list.size() - 1).getId();
         String URL = Constants.URL.DELETE_EVENT + eventId;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, null, new Response.Listener<JSONObject>() {
             @Override
@@ -149,6 +148,14 @@ public class EventListFragment extends TabFragment{
         });
         AppController.getInstance().addToRequestQueue(request);
 
+    }
+
+    public EventListAdapter getEventListAdapter() {
+        return eventListAdapter;
+    }
+
+    public long getItemId(int position){
+        return list.get(position).getId();
     }
 
     private List<EventDTO> createMockEventListData() {

@@ -3,6 +3,7 @@ package com.kulpin.project.travelcompanion.adapter;
 import android.app.Activity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     static private List<EventDTO> list;
     private Activity activity;
+    private int selectedPosition;
 
     public EventListAdapter(List<EventDTO> data, Activity activity) {
         this.list = data;
@@ -32,16 +34,33 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     }
 
     @Override
-    public void onBindViewHolder(EventViewHolder holder, int position) {
+    public void onBindViewHolder(final EventViewHolder holder, int position) {
         EventDTO item = list.get(position);
         holder.textTitle.setText(item.getTitle());
         holder.textDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(item.getEventDate()));
         holder.textPlace.setText(item.getPlace());
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d("myLOG", "adapter position = " + holder.getAdapterPosition());
+                setSelectedPosition(holder.getAdapterPosition());
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
     }
 
     public static class EventViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
@@ -59,6 +78,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             textDate = (TextView)itemView.findViewById(R.id.textDate);
             textPlace = (TextView)itemView.findViewById(R.id.textPlace);
             itemView.setOnClickListener(this);
+            activity.registerForContextMenu(itemView);
         }
 
         @Override

@@ -3,6 +3,8 @@ package com.kulpin.project.travelcompanion.adapter;
 import android.app.Activity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ public class JourneyListAdapter extends RecyclerView.Adapter<JourneyListAdapter.
 
     private List<JourneyDTO> list;
     private Activity activity;
+    private int selectedPosition;
 
     public JourneyListAdapter(List<JourneyDTO> list, Activity activity) {
         this.list = list;
@@ -32,12 +35,24 @@ public class JourneyListAdapter extends RecyclerView.Adapter<JourneyListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(JourneyViewHolder holder, int position) {
+    public void onBindViewHolder(final JourneyViewHolder holder, final int position) {
         JourneyDTO item = list.get(position);
         holder.textTitle.setText(item.getTitle());
         holder.textStartDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(item.getStartDate()) + " -");
         holder.textEndDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(item.getEndDate()));
 
+
+        /*This implemented not in JourneyViewHolder because
+        JourneyViewHolder after deleting cant hold onLongClick.
+        * */
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d("myLOG", "adapter position = " + holder.getAdapterPosition());
+                setSelectedPosition(holder.getAdapterPosition());
+                return false;
+            }
+        });
     }
 
     @Override
@@ -50,7 +65,21 @@ public class JourneyListAdapter extends RecyclerView.Adapter<JourneyListAdapter.
         return list.size();
     }
 
-    public class JourneyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
+    }
+
+    @Override
+    public void onViewRecycled(JourneyViewHolder holder) {
+        holder.itemView.setOnLongClickListener(null);
+        super.onViewRecycled(holder);
+    }
+
+    public class JourneyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private CardView cardView;
         private TextView textTitle;
@@ -66,6 +95,8 @@ public class JourneyListAdapter extends RecyclerView.Adapter<JourneyListAdapter.
             textStartDate = (TextView)itemView.findViewById(R.id.textStartDate);
             textEndDate = (TextView)itemView.findViewById(R.id.textEndDate);
             itemView.setOnClickListener(this);
+            //itemView.setOnLongClickListener(this);
+            activity.registerForContextMenu(itemView);
         }
 
         @Override
@@ -73,5 +104,13 @@ public class JourneyListAdapter extends RecyclerView.Adapter<JourneyListAdapter.
             //((MainActivity)activity).onFragmentReplace(list.get(getAdapterPosition()).getId());
             ((MainActivity)activity).onItemClicked(getAdapterPosition(), list.get(getAdapterPosition()).getId());
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
+
     }
+
+
 }

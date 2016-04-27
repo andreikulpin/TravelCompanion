@@ -16,12 +16,14 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:title="@string/app_name">
+            android:title="@string/app_name"
+            >
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_2"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 >
 
             </android.support.v7.widget.Toolbar>

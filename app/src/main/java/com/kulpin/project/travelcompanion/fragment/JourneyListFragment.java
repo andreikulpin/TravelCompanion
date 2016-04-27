@@ -7,9 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -38,6 +41,7 @@ public class JourneyListFragment extends TabFragment {
     private static final int LAYOUT = R.layout.fragment_timeline_main;
     private Context context;
     private View view;
+    private RecyclerView recyclerView;
     private JourneyListAdapter journeyListAdapter;
     private List<JourneyDTO> list;
 
@@ -50,36 +54,39 @@ public class JourneyListFragment extends TabFragment {
         return fragment;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    public JourneyListAdapter getJourneyListAdapter() {
-        return journeyListAdapter;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(LAYOUT, container, false);
-        //Log.d("myLOG", "onCreateView " + this.toString());
+        Log.d("myLOG", "onCreateView " + this.toString());
         list = new ArrayList<>();
         syncJourneyList();
 
-        RecyclerView rv = (RecyclerView)view.findViewById(R.id.recycleView);
-        rv.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         journeyListAdapter = new JourneyListAdapter(list, getActivity());
-        rv.setAdapter(journeyListAdapter);
+        recyclerView.setAdapter(journeyListAdapter);
+        //registerForContextMenu(recyclerView);
 
         return view;
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public JourneyListAdapter getJourneyListAdapter() {
+        return journeyListAdapter;
+    }
+
+    public long getItemId(int position){
+        return list.get(position).getId();
+    }
 
     public void syncJourneyList(){
 
@@ -155,8 +162,8 @@ public class JourneyListFragment extends TabFragment {
     }
 
     public void deleteJourney(long journeyId){
-        if (list == null) return;
-        journeyId = list.get(list.size() - 1).getId();
+        //if (list == null) return;
+        //journeyId = list.get(list.size() - 1).getId();
         String URL = Constants.URL.DELETE_JOURNEY + journeyId;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, null, new Response.Listener<JSONObject>() {
             @Override
