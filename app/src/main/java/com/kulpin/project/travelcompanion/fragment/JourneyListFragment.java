@@ -25,6 +25,7 @@ import com.kulpin.project.travelcompanion.MainActivity;
 import com.kulpin.project.travelcompanion.R;
 import com.kulpin.project.travelcompanion.adapter.JourneyListAdapter;
 import com.kulpin.project.travelcompanion.dto.JourneyDTO;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +72,7 @@ public class JourneyListFragment extends TabFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         journeyListAdapter = new JourneyListAdapter(list, getActivity());
         recyclerView.setAdapter(journeyListAdapter);
-        //registerForContextMenu(recyclerView);
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).build());
 
         return view;
     }

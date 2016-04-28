@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitle(R.string.journeys);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity{
         toolbar.inflateMenu(R.menu.menu);
     }
 
+
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.view_navigation_open, R.string.view_navigation_close);
@@ -115,6 +119,7 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
+        toolbar.setTitle(R.string.events);
     }
 
     @Override
@@ -166,7 +171,13 @@ public class MainActivity extends AppCompatActivity{
         return super.onContextItemSelected(item);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof EventListFragment) {
+            toolbar.setTitle(R.string.journeys);
+        }
+        super.onBackPressed();
+    }
 
     public PagesContainerFragment getPagesContainerFragment() {
         return pagesContainerFragment;

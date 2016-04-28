@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_gravity="center"
-    android:background="@color/cardview_light_background">
+    android:background="@xml/list_item_selector">
 
     <RelativeLayout
         android:orientation="vertical"

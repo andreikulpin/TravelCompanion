@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kulpin.project.travelcompanion.EventContentActivity;
@@ -68,6 +69,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         private TextView textTitle;
         private TextView textDate;
         private TextView textPlace;
+        private ImageView imageView;
         private Activity activity;
 
         public EventViewHolder(View itemView, Activity activity) {
@@ -77,6 +79,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             textTitle = (TextView)itemView.findViewById(R.id.textTitle);
             textDate = (TextView)itemView.findViewById(R.id.textDate);
             textPlace = (TextView)itemView.findViewById(R.id.textPlace);
+            imageView = (ImageView)itemView.findViewById(R.id.event_list_image);
+            imageView.setImageResource(R.drawable.image_1);
             itemView.setOnClickListener(this);
             activity.registerForContextMenu(itemView);
         }
