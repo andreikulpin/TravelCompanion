@@ -18,21 +18,14 @@
             android:layout_height="wrap_content"
             android:title="@string/app_name"
             >
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 >
-
             </android.support.v7.widget.Toolbar>
-
-
-
         </android.support.design.widget.AppBarLayout>
-
-
 
         <FrameLayout
             android:id="@+id/fragment_container"
@@ -42,7 +35,6 @@
 
         </FrameLayout>
 
-
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
@@ -50,6 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start">
-
     </android.support.design.widget.NavigationView>
+
 </android.support.v4.widget.DrawerLayout>

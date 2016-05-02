@@ -1,25 +1,25 @@
 package com.kulpin.project.travelcompanion;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.kulpin.project.travelcompanion.dto.EventDTO;
 import com.kulpin.project.travelcompanion.dto.JourneyDTO;
 import com.kulpin.project.travelcompanion.fragment.EventListFragment;
 import com.kulpin.project.travelcompanion.fragment.JourneyListFragment;
 import com.kulpin.project.travelcompanion.fragment.PagesContainerFragment;
+import com.kulpin.project.travelcompanion.utilities.Constants;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -50,11 +50,11 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.add:
                         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PagesContainerFragment) {
                             Intent intent = new Intent(getBaseContext(), AddJourneyActivity.class);
-                            startActivityForResult(intent, 1);
+                            startActivityForResult(intent, Constants.RequestCodes.JOURNEY_REQUEST);
                         }
                         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof EventListFragment) {
                             Intent intent = new Intent(getBaseContext(), AddEventActivity.class);
-                            startActivityForResult(intent, 2);
+                            startActivityForResult(intent, Constants.RequestCodes.EVENT_REQUEST);
                         }
                         break;
                     case R.id.delete:
@@ -74,12 +74,29 @@ public class MainActivity extends AppCompatActivity{
                         }
 
                         break;
+                    case R.id.gallery:
+                        Intent intent = new Intent(getBaseContext(), GalleryActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.saveUser:
+                        SharedPreferences sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putLong("userId", 1);
+                        editor.putString("username", "user");
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "User Saved", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.loadUser:
+                        sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
+                        Long userId = sharedPreferences.getLong("userId", 0);
+                        String user = sharedPreferences.getString("username", "") + userId;
+                        Toast.makeText(getApplicationContext(), user, Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
         });
 
-        toolbar.inflateMenu(R.menu.menu);
+        toolbar.inflateMenu(R.menu.menu_main);
     }
 
 
@@ -126,12 +143,12 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null) {return;}
         switch (requestCode){
-            case 1:
+            case Constants.RequestCodes.JOURNEY_REQUEST:
                 ((JourneyListFragment)pagesContainerFragment.getViewPagerAdapter().
                         getItem(pagesContainerFragment.getTabLayout().getSelectedTabPosition())).
                         addNewJourney((JourneyDTO) data.getParcelableExtra(JourneyDTO.class.getCanonicalName()));
                 break;
-            case 2:
+            case Constants.RequestCodes.EVENT_REQUEST:
                 eventListFragment.addNewEvent((EventDTO) data.getParcelableExtra(EventDTO.class.getCanonicalName()));
                 break;
         }
@@ -156,6 +173,18 @@ public class MainActivity extends AppCompatActivity{
                     journeyListFragment.deleteJourney(journeyListFragment.getItemId(journeyListFragment.getJourneyListAdapter().getSelectedPosition()));
 
                 }
+                break;
+
+                case R.id.menu_context_edit:{
+                    Intent intent = new Intent(this, AddJourneyActivity.class);
+                    intent.setAction(Constants.Actions.EDIT_JOURNEY_ACTION);
+                    JourneyListFragment journeyListFragment = ((JourneyListFragment)pagesContainerFragment.getViewPagerAdapter().
+                            getItem(pagesContainerFragment.getTabLayout().getSelectedTabPosition()));
+                    JourneyDTO journey = journeyListFragment.getJourneyByPosition(journeyListFragment.getJourneyListAdapter().getSelectedPosition());
+                    intent.putExtra(JourneyDTO.class.getCanonicalName(), journey);
+                    startActivityForResult(intent, Constants.RequestCodes.JOURNEY_REQUEST);
+                }
+                break;
             }
 
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof EventListFragment){
@@ -164,8 +193,16 @@ public class MainActivity extends AppCompatActivity{
                     eventListFragment.deleteEvent(
                             eventListFragment.getItemId(eventListFragment.getEventListAdapter().getSelectedPosition()));
                 }
-
+                break;
+                case R.id.menu_context_edit:{
+                    Intent intent = new Intent(this, AddEventActivity.class);
+                    intent.setAction(Constants.Actions.EDIT_EVENT_ACTION);
+                    EventDTO event = eventListFragment.getEventByPosition(eventListFragment.getEventListAdapter().getSelectedPosition());
+                    intent.putExtra(EventDTO.class.getCanonicalName(), event);
+                    startActivityForResult(intent, Constants.RequestCodes.EVENT_REQUEST);
+                }
             }
+
         }
 
         return super.onContextItemSelected(item);

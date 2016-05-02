@@ -38,12 +38,12 @@ public class JourneyListAdapter extends RecyclerView.Adapter<JourneyListAdapter.
     public void onBindViewHolder(final JourneyViewHolder holder, final int position) {
         JourneyDTO item = list.get(position);
         holder.textTitle.setText(item.getTitle());
-        holder.textStartDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(item.getStartDate()) + " -");
+        holder.textStartDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(item.getStartDate()) + " - ");
         holder.textEndDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(item.getEndDate()));
 
 
         /*This implemented not in JourneyViewHolder because
-        JourneyViewHolder after deleting cant hold onLongClick.
+        * JourneyViewHolder after deleting cant hold onLongClick.
         * */
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

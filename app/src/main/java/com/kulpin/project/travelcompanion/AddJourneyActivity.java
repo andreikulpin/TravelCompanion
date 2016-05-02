@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.kulpin.project.travelcompanion.dto.EventDTO;
 import com.kulpin.project.travelcompanion.dto.JourneyDTO;
 import com.kulpin.project.travelcompanion.fragment.DatePickerFragment;
+import com.kulpin.project.travelcompanion.utilities.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -27,12 +28,20 @@ public class AddJourneyActivity extends AppCompatActivity{
     private Button addEndDate;
     private GregorianCalendar startDate, endDate;
     private Toolbar toolbar;
+    private JourneyDTO newJourney;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
+        bindActivity();
+        initToolbar();
 
+        if (getIntent().getAction() != null && getIntent().getAction().equals(Constants.Actions.EDIT_JOURNEY_ACTION))
+            fillFieds();
+    }
+
+    private void bindActivity(){
         addTitle = (EditText) findViewById(R.id.addJourneyTitle);
         addStartDate = (Button) findViewById(R.id.addStartDate);
         addEndDate = (Button) findViewById(R.id.addEndDate);
@@ -40,7 +49,17 @@ public class AddJourneyActivity extends AppCompatActivity{
         addEndDate.setOnClickListener(OnClickListener());
         startDate = new GregorianCalendar();
         endDate = new GregorianCalendar();
-        initToolbar();
+        newJourney = new JourneyDTO();
+    }
+
+    private void fillFieds() {
+        JourneyDTO journey = getIntent().getParcelableExtra(JourneyDTO.class.getCanonicalName());
+        addTitle.setText(journey.getTitle());
+        addStartDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(journey.getStartDate()));
+        addEndDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(journey.getEndDate()));
+        startDate.setTime(journey.getStartDate());
+        endDate.setTime(journey.getEndDate());
+        newJourney.setId(journey.getId());
     }
 
     private void initToolbar(){
@@ -52,8 +71,10 @@ public class AddJourneyActivity extends AppCompatActivity{
                 switch (item.getItemId()) {
                     case R.id.done: {
                         Intent intent = new Intent();
-                        JourneyDTO journey = new JourneyDTO(addTitle.getText().toString(), startDate.getTime(), endDate.getTime());
-                        intent.putExtra(JourneyDTO.class.getCanonicalName(), journey);
+                        newJourney.setTitle(addTitle.getText().toString());
+                        newJourney.setStartDate(startDate.getTime());
+                        newJourney.setEndDate(endDate.getTime());
+                        intent.putExtra(JourneyDTO.class.getCanonicalName(), newJourney);
                         setResult(RESULT_OK, intent);
                         finish();
                     }
@@ -64,8 +85,6 @@ public class AddJourneyActivity extends AppCompatActivity{
         });
 
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_left_white_24dp);
-
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

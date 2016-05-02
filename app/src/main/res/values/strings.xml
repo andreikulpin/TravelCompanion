@@ -3,6 +3,7 @@
 
     <string name="journeys">Journeys</string>
     <string name="events">Events</string>
+    <string name="gallery">Gallery</string>
 
     <string name="view_navigation_open">Open</string>
     <string name="view_navigation_close">Close</string>

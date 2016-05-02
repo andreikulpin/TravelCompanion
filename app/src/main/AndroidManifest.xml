@@ -3,9 +3,10 @@
     package="com.kulpin.project.travelcompanion">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".AppController"
+        android:name=".utilities.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,6 +22,7 @@
         <activity android:name=".EventContentActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".AddJourneyActivity" />
+        <activity android:name=".GalleryActivity"></activity>
     </application>
 
 </manifest>

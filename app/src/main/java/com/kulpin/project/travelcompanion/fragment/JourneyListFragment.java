@@ -3,25 +3,20 @@ package com.kulpin.project.travelcompanion.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.kulpin.project.travelcompanion.AppController;
-import com.kulpin.project.travelcompanion.Constants;
-import com.kulpin.project.travelcompanion.MainActivity;
+import com.kulpin.project.travelcompanion.utilities.AppController;
+import com.kulpin.project.travelcompanion.utilities.Constants;
 import com.kulpin.project.travelcompanion.R;
 import com.kulpin.project.travelcompanion.adapter.JourneyListAdapter;
 import com.kulpin.project.travelcompanion.dto.JourneyDTO;
@@ -89,6 +84,10 @@ public class JourneyListFragment extends TabFragment {
         return list.get(position).getId();
     }
 
+    public JourneyDTO getJourneyByPosition(int position){
+        return list.get(position);
+    }
+
     public void syncJourneyList(){
 
         String URL = "";
@@ -133,7 +132,8 @@ public class JourneyListFragment extends TabFragment {
         JSONObject object = new JSONObject();
 
         try {
-            object.accumulate("userId", 0);
+            if (newJourney.getId() != 0) object.accumulate("id", newJourney.getId());
+            object.accumulate("userId", Constants.userId);
             object.accumulate("title", newJourney.getTitle());
             object.accumulate("startDate", newJourney.getStartDate().getTime());
             object.accumulate("endDate", newJourney.getEndDate().getTime());

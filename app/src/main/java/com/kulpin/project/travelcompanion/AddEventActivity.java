@@ -12,8 +12,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.kulpin.project.travelcompanion.dto.EventDTO;
-import com.kulpin.project.travelcompanion.dto.JourneyDTO;
 import com.kulpin.project.travelcompanion.fragment.DatePickerFragment;
+import com.kulpin.project.travelcompanion.utilities.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -23,22 +23,39 @@ public class AddEventActivity extends FragmentActivity {
     private EditText addTitle;
     private EditText addPlace;
     private Button addDate;
-    private GregorianCalendar calendar;
+    private GregorianCalendar eventDate;
     private EditText addDistance;
     private Toolbar toolbar;
+    private EventDTO newEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
+        bindActivity();
+        initToolbar();
+        if (getIntent().getAction() != null && getIntent().getAction().equals(Constants.Actions.EDIT_EVENT_ACTION))
+            fillFieds();
+    }
 
+    private void fillFieds() {
+        EventDTO event = getIntent().getParcelableExtra(EventDTO.class.getCanonicalName());
+        addTitle.setText(event.getTitle());
+        addPlace.setText(event.getPlace());
+        addDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(event.getEventDate()));
+        addDistance.setText(((Float) event.getDistance()).toString());
+        eventDate.setTime(event.getEventDate());
+        newEvent.setId(event.getId());
+    }
+
+    public void bindActivity(){
         addTitle = (EditText) findViewById(R.id.addTitle);
         addPlace = (EditText) findViewById(R.id.addPlace);
         addDate = (Button) findViewById(R.id.addDate);
         addDistance = (EditText) findViewById(R.id.addDistance);
         addDate.setOnClickListener(OnClickListener());
-        calendar = new GregorianCalendar();
-        initToolbar();
+        eventDate = new GregorianCalendar();
+        newEvent = new EventDTO();
     }
 
     private void initToolbar(){
@@ -50,8 +67,11 @@ public class AddEventActivity extends FragmentActivity {
                 switch (item.getItemId()) {
                     case R.id.done: {
                         Intent intent = new Intent();
-                        EventDTO event = new EventDTO(addTitle.getText().toString(), addPlace.getText().toString(), calendar.getTime(), Float.parseFloat(addDistance.getText().toString()));
-                        intent.putExtra(EventDTO.class.getCanonicalName(), event);
+                        newEvent.setTitle(addTitle.getText().toString());
+                        newEvent.setPlace(addPlace.getText().toString());
+                        newEvent.setEventDate(eventDate.getTime());
+                        newEvent.setDistance(Float.parseFloat(addDistance.getText().toString()));
+                        intent.putExtra(EventDTO.class.getCanonicalName(), newEvent);
                         setResult(RESULT_OK, intent);
                         finish();
                     }
@@ -62,7 +82,6 @@ public class AddEventActivity extends FragmentActivity {
         });
 
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_left_white_24dp);
-
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +100,8 @@ public class AddEventActivity extends FragmentActivity {
                         DialogFragment dateFragment = new DatePickerFragment(){
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                calendar.set(year, monthOfYear, dayOfMonth);
-                                addDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(calendar.getTime()));
+                                eventDate.set(year, monthOfYear, dayOfMonth);
+                                addDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(eventDate.getTime()));
                             }
                         };
                         dateFragment.show(getFragmentManager(), "DatePicker");

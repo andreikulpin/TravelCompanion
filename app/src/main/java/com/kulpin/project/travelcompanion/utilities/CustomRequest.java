@@ -1,4 +1,4 @@
-package com.kulpin.project.travelcompanion;
+package com.kulpin.project.travelcompanion.utilities;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;

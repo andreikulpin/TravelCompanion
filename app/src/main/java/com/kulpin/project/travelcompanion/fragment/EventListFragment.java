@@ -15,8 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.kulpin.project.travelcompanion.AppController;
-import com.kulpin.project.travelcompanion.Constants;
+import com.kulpin.project.travelcompanion.utilities.AppController;
+import com.kulpin.project.travelcompanion.utilities.Constants;
 import com.kulpin.project.travelcompanion.R;
 import com.kulpin.project.travelcompanion.adapter.EventListAdapter;
 import com.kulpin.project.travelcompanion.dto.EventDTO;
@@ -95,6 +95,7 @@ public class EventListFragment extends TabFragment{
         JSONObject object = new JSONObject();
 
         try {
+            if (newEvent.getId() != 0) object.accumulate("id", newEvent.getId());
             object.accumulate("journeyId", getArguments().getLong("journeyId"));
             object.accumulate("userId", 0);
             object.accumulate("title", newEvent.getTitle());
@@ -157,6 +158,11 @@ public class EventListFragment extends TabFragment{
     public long getItemId(int position){
         return list.get(position).getId();
     }
+
+    public EventDTO getEventByPosition(int position){
+        return list.get(position);
+    }
+
 
     private List<EventDTO> createMockEventListData() {
         List<EventDTO> list = new ArrayList<>();
