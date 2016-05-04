@@ -23,8 +23,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:popupTheme="@style/PopupTheme"
                 >
+
+                <ProgressBar
+                    android:id="@+id/progress_main"
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@android:style/Widget.ProgressBar.Small"/>
             </android.support.v7.widget.Toolbar>
+
+
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout

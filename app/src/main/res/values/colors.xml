@@ -7,4 +7,6 @@
 
     <color name="colorWhite">#fefefe</color>
     <color name="colorGreen">#00ff04</color>
+
+    <color name="colorTextPopup">#000000</color>
 </resources>

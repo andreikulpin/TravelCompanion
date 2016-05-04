@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Andrei on 10.04.2016.
@@ -48,6 +50,16 @@ public class JourneyListFragment extends TabFragment {
         fragment.setArguments(args);
         fragment.setContext(context);
         return fragment;
+    }
+
+    void downloadFile() {
+        // пауза - 1 секунда
+        Log.d("tclog", "sleep");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -89,7 +101,8 @@ public class JourneyListFragment extends TabFragment {
     }
 
     public void syncJourneyList(){
-
+        final ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_main);
+        progressBar.setVisibility(View.VISIBLE);
         String URL = "";
         switch (getArguments().getString("title")){
             case "active": URL = Constants.URL.GET_ACTIVE_JOURNEYS + 1;
@@ -118,6 +131,7 @@ public class JourneyListFragment extends TabFragment {
                     }
                 }
                 journeyListAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() {
             @Override

@@ -5,51 +5,50 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.kulpin.project.travelcompanion.adapter.GridViewAdapter;
 import com.kulpin.project.travelcompanion.dto.EventDTO;
-import com.kulpin.project.travelcompanion.utilities.AppController;
+import com.kulpin.project.travelcompanion.dto.Photo;
 import com.kulpin.project.travelcompanion.utilities.Constants;
 import com.kulpin.project.travelcompanion.utilities.DBHelper;
+import com.kulpin.project.travelcompanion.utilities.EventController;
 import com.kulpin.project.travelcompanion.utilities.FilePath;
 import com.kulpin.project.travelcompanion.utilities.GalleryUtilities;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class EventContentActivity extends AppCompatActivity {
 
     private static final int LAYOUT = R.layout.activity_event_content;
     private long eventId;
+    private EventController eventController;
     private EventDTO event;
-    private DrawerLayout drawerLayout;
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
+    private ProgressBar progressBar;
     private TextView mTextPlace;
     private TextView mTextDate;
-    private TextView mTextDistance;
     private ImageView image;
+    private CardView gallery;
     private GridView gridView;
+    private CardView allPhotos;
+    private CardView attachPhoto;
 
-    private ArrayList<String> filePaths;
+    private ArrayList<Photo> photoList;
     private GalleryUtilities galleryUtilities;
     private GridViewAdapter gridViewAdapter;
 
@@ -63,8 +62,15 @@ public class EventContentActivity extends AppCompatActivity {
         bindActivity();
         initToolbar();
         //initNavigationView();
-        syncEvent();
+        Log.d("tclog", "onCreate");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("tclog", "onResume");
         initGallery();
+        setActivityCover();
     }
 
     public static void start(Context context, long eventId){
@@ -75,22 +81,28 @@ public class EventContentActivity extends AppCompatActivity {
 
     private void bindActivity(){
         this.eventId = getIntent().getLongExtra("eventId", 0);
-        //filePaths = new ArrayList<String>();
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_content);
+        eventController = new EventController(this);
+        eventController.getEventById(eventId);
+        progressBar = (ProgressBar) findViewById(R.id.progress_content);
+        progressBar.setVisibility(View.VISIBLE);
         appBarLayout = (AppBarLayout) findViewById(R.id.appBar_content);
         toolbar = (Toolbar) findViewById(R.id.toolbar_content);
         mTextPlace = (TextView)findViewById(R.id.textPlace);
         mTextDate = (TextView)findViewById(R.id.textDate);
-        mTextDistance = (TextView)findViewById(R.id.textDistance);
-        image = (ImageView)findViewById(R.id.image);
-        //image.setImageResource(R.drawable.image_1);
-        gridView = (GridView) findViewById(R.id.grid_view);
         dbHelper = new DBHelper(this);
-        filePaths = dbHelper.getPhotosByEventId(eventId);
         galleryUtilities = new GalleryUtilities(this);
-
-        Button getImagesButton = (Button)findViewById(R.id.button_get_image);
-        getImagesButton.setOnClickListener(new View.OnClickListener() {
+        image = (ImageView)findViewById(R.id.image);
+        gallery = (CardView) findViewById(R.id.cardview_gallery_content);
+        gridView = (GridView) findViewById(R.id.grid_view);
+        allPhotos = (CardView) findViewById(R.id.cardView_all_photos);
+        allPhotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startGalleryActivity();
+            }
+        });
+        attachPhoto = (CardView) findViewById(R.id.cardView_attach_photo);
+        attachPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -99,26 +111,13 @@ public class EventContentActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), Constants.RequestCodes.PICK_IMAGE_REQUEST);
             }
         });
+    }
 
-        Button deleteAllImagesButton = (Button) findViewById(R.id.button_delete_image);
-        deleteAllImagesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dbHelper.deleteAllPhotos();
-                filePaths.clear();
-                gridViewAdapter.notifyDataSetChanged();
-                appBarLayout.setExpanded(false);
-                image.setImageBitmap(null);
-            }
-        });
+    private void startGalleryActivity(){
+        GalleryActivity.start(this, eventId, event.getTitle());
     }
 
     public void initToolbar(){
-        if (filePaths.isEmpty()) {
-            appBarLayout.setExpanded(false);
-        } else {
-            setCover();
-        }
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_left_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,10 +125,52 @@ public class EventContentActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        toolbar.inflateMenu(R.menu.menu_content);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.attach_photo: {
+                        Intent intent = new Intent();
+                        intent.setType("*/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), Constants.RequestCodes.PICK_IMAGE_REQUEST);
+                    }
+                    break;
+
+                    case R.id.clear_gallery: {
+                        dbHelper.deleteAllPhotos(eventId);
+                        photoList.clear();
+                        gridViewAdapter.notifyDataSetChanged();
+                        setActivityCover();
+                    }
+                    break;
+
+                    case R.id.refresh_content: {
+                        eventController.getEventById(eventId);
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                    break;
+
+                }
+                return false;
+            }
+        });
+    }
+
+    public void setEvent(EventDTO event){
+        this.event = event;
+        toolbar.setTitle(event.getTitle());
+        mTextPlace.setText(event.getPlace());
+        mTextDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(event.getEventDate().getTime()));
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     private void initGallery() {
-        float padding = galleryUtilities.getPadding(Constants.GRID_PADDING);
+        photoList = dbHelper.getPhotosByEventId(eventId);
+        while(photoList.size() > 3) photoList.remove(photoList.size() - 1);
+
+        float padding = galleryUtilities.convertDIPtoPXL(Constants.GRID_PADDING);
         int columnWidth = galleryUtilities.getColumnWidth();
 
         gridView.setNumColumns(Constants.NUM_COLUMNS);
@@ -139,56 +180,42 @@ public class EventContentActivity extends AppCompatActivity {
         gridView.setHorizontalSpacing((int) padding);
         gridView.setVerticalSpacing((int) padding);
 
-        gridViewAdapter = new GridViewAdapter(this, filePaths, columnWidth);
+        gridViewAdapter = new GridViewAdapter(this, photoList, columnWidth);
         gridView.setAdapter(gridViewAdapter);
     }
 
-    private void setCover(){
-        Bitmap bitmap = GalleryUtilities.decodeBitmapFromResource(filePaths.get(0), galleryUtilities.getScreenWidth(), galleryUtilities.getScreenWidth());
+    private void setActivityCover(){
+        if(photoList.isEmpty()){
+            appBarLayout.setExpanded(false);
+            gallery.setVisibility(View.INVISIBLE);
+            allPhotos.setVisibility(View.INVISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            attachPhoto.setLayoutParams(params);
+            image.setImageBitmap(null);
+            return;
+        } else {
+            appBarLayout.setExpanded(true);
+            gallery.setVisibility(View.VISIBLE);
+            allPhotos.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT, 1);
+            attachPhoto.setLayoutParams(params);
+        }
+
+        Bitmap bitmap = GalleryUtilities.decodeBitmapFromResource(photoList.get(0).getPath(), galleryUtilities.getScreenWidth(), galleryUtilities.getScreenWidth());
         image.setImageBitmap(bitmap);
-        appBarLayout.setExpanded(true);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.d("tclog", "onActivityResult");
         if (requestCode == Constants.RequestCodes.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            /*Uri uri = data.getData();
-            String path = uri.getPath();
-            Log.d("tclog", path);*/
-
             String selectedImagePath;
             Uri selectedImageUri = data.getData();
             selectedImagePath = FilePath.getPath(getApplicationContext(), selectedImageUri);
-            Log.d("tclog", "path = " + selectedImagePath);
-            dbHelper.insertPhotoPath(eventId, selectedImagePath);
-            filePaths.add(selectedImagePath);
-            gridViewAdapter.notifyDataSetChanged();
-            setCover();
+            Photo photo = new Photo(eventId, "photo", selectedImagePath);
+            dbHelper.insertPhoto(photo);
         }
-    }
-
-    public void syncEvent(){
-        String URL = Constants.URL.GET_EVENT + eventId;
-        JsonObjectRequest request = new JsonObjectRequest(URL, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    toolbar.setTitle(response.getString("title"));
-                    mTextPlace.setText(response.getString("place"));
-                    mTextDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(new Date(response.getLong("eventDate"))));
-                    mTextDistance.setText(response.getString("distance") + " km");
-                } catch (JSONException e){}
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("myLOG", "error syncronization event = " + error);
-            }
-        });
-        AppController.getInstance().addToRequestQueue(request);
     }
 
 

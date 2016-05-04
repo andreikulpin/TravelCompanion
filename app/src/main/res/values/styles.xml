@@ -9,6 +9,11 @@
         <!--<item name="colorText">@color/colorText</item>-->
     </style>
 
+    <style name="PopupTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorTextPopup</item>
+    </style>
+
 
 
 

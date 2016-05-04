@@ -83,14 +83,14 @@ public class GalleryUtilities {
         return columnWidth;
     }
 
-    public float getPadding(int paddingDPs){
+    public float convertDIPtoPXL(int valueInDPs){
         Resources resources = context.getResources();
-        float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, paddingDPs, resources.getDisplayMetrics());
+        float padding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDPs, resources.getDisplayMetrics());
         return padding;
     }
 
     public int getColumnWidth(){
-        int columnWidth = (int) ((getScreenWidth() - ((Constants.NUM_COLUMNS + 1) * getPadding(Constants.GRID_PADDING)) - 2* getPadding(4)) / Constants.NUM_COLUMNS);
+        int columnWidth = (int) ((getScreenWidth() - ((Constants.NUM_COLUMNS + 1) * convertDIPtoPXL(Constants.GRID_PADDING))) / Constants.NUM_COLUMNS);
         return columnWidth;
     }
 

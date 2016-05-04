@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -50,7 +51,6 @@ public class EventListFragment extends TabFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(LAYOUT, container, false);
         list = new ArrayList<>();
-        //list = createMockEventListData();
         RecyclerView rv = (RecyclerView)view.findViewById(R.id.recycleView);
         rv.setLayoutManager(new LinearLayoutManager(context));
         eventListAdapter = new EventListAdapter(list, getActivity());
@@ -59,7 +59,16 @@ public class EventListFragment extends TabFragment{
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        syncEventList();
+        eventListAdapter.notifyDataSetChanged();
+    }
+
     public void syncEventList(){
+        final ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_main);
+        progressBar.setVisibility(View.VISIBLE);
         String URL = Constants.URL.GET_ALL_EVENTS + getArguments().getLong("journeyId");
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
@@ -80,6 +89,7 @@ public class EventListFragment extends TabFragment{
                     }
                 }
                 eventListAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -129,8 +139,6 @@ public class EventListFragment extends TabFragment{
     }
 
     public void deleteEvent(long eventId){
-        //if (list.isEmpty()) return;
-        //eventId = list.get(list.size() - 1).getId();
         String URL = Constants.URL.DELETE_EVENT + eventId;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, null, new Response.Listener<JSONObject>() {
             @Override

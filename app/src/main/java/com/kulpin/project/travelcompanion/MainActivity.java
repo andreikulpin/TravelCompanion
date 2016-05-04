@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity{
 
         if ((getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PagesContainerFragment))
             switch (item.getItemId()){
-                case R.id.menu_context_delete:{
+                case R.id.delete_context:{
                     JourneyListFragment journeyListFragment = ((JourneyListFragment)pagesContainerFragment.getViewPagerAdapter().
                             getItem(pagesContainerFragment.getTabLayout().getSelectedTabPosition()));
 
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity{
                 }
                 break;
 
-                case R.id.menu_context_edit:{
+                case R.id.edit_context:{
                     Intent intent = new Intent(this, AddJourneyActivity.class);
                     intent.setAction(Constants.Actions.EDIT_JOURNEY_ACTION);
                     JourneyListFragment journeyListFragment = ((JourneyListFragment)pagesContainerFragment.getViewPagerAdapter().
@@ -189,12 +189,12 @@ public class MainActivity extends AppCompatActivity{
 
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof EventListFragment){
             switch (item.getItemId()){
-                case R.id.menu_context_delete: {
+                case R.id.delete_context: {
                     eventListFragment.deleteEvent(
                             eventListFragment.getItemId(eventListFragment.getEventListAdapter().getSelectedPosition()));
                 }
                 break;
-                case R.id.menu_context_edit:{
+                case R.id.edit_context:{
                     Intent intent = new Intent(this, AddEventActivity.class);
                     intent.setAction(Constants.Actions.EDIT_EVENT_ACTION);
                     EventDTO event = eventListFragment.getEventByPosition(eventListFragment.getEventListAdapter().getSelectedPosition());
