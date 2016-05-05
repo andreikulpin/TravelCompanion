@@ -1,34 +1,31 @@
 package com.kulpin.project.travelcompanion.dto;
 
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Andrei on 04.05.2016.
- */
-public class Photo implements Parcelable {
+public class Document implements Parcelable{
+
     private long id;
     private long eventId;
     private long journeyId;
     private String title;
     private String filePath;
 
-
-    public Photo() {
+    public Document() {
     }
 
-    public Photo(long eventId, String title, String filePath) {
+    public Document(long eventId, String title, String filePath) {
         this.eventId = eventId;
         this.title = title;
         this.filePath = filePath;
     }
 
-    public Photo(Parcel parcel){
-        id = parcel.readLong();
-        eventId = parcel.readLong();
-        title = parcel.readString();
-        filePath = parcel.readString();
-
+    public Document(Parcel parcel){
+        this.id = parcel.readLong();
+        this.eventId = parcel.readLong();
+        this.title = parcel.readString();
+        this.filePath = parcel.readString();
     }
 
     public long getId() {
@@ -76,16 +73,15 @@ public class Photo implements Parcelable {
         dest.writeString(filePath);
     }
 
-    public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
-
+    public static final Parcelable.Creator<Document> CREATOR = new Creator<Document>() {
         @Override
-        public Photo createFromParcel(Parcel source) {
-            return  new Photo(source);
+        public Document createFromParcel(Parcel source) {
+            return new Document(source);
         }
 
         @Override
-        public Photo[] newArray(int size) {
-            return new Photo[size];
+        public Document[] newArray(int size) {
+            return new Document[size];
         }
     };
 }

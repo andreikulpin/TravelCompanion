@@ -108,7 +108,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
                 params.height = (int)galleryUtilities.convertDIPtoPXL(150);
                 imageView.setLayoutParams(params);
             }
-            Bitmap bitmap = GalleryUtilities.decodeBitmapFromResource(photoList.get(0).getPath(), galleryUtilities.getScreenWidth(), galleryUtilities.getScreenWidth());
+            Bitmap bitmap = GalleryUtilities.decodeBitmapFromResource(photoList.get(0).getFilePath(), galleryUtilities.getScreenWidth(), galleryUtilities.getScreenWidth());
             imageView.setImageBitmap(bitmap);
         }
 

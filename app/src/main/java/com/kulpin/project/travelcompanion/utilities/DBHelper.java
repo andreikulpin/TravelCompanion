@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.kulpin.project.travelcompanion.dto.Document;
 import com.kulpin.project.travelcompanion.dto.Photo;
 
 import java.util.ArrayList;
@@ -25,10 +26,17 @@ public class DBHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table photos ("
-        + "id integer primary key autoincrement,"
-        + "eventId long,"
-        + "title text,"
-        + "filepath text" + ");");
+                + "id integer primary key autoincrement,"
+                + "eventId long,"
+                + "title text,"
+                + "filepath text" + ");");
+
+        db.execSQL("create table documents ("
+                + "id integer primary key autoincrement,"
+                + "eventId long,"
+                + "title text,"
+                + "filepath text" + ");");
+
         Log.d("tclog", "Local database created");
     }
 
@@ -42,9 +50,20 @@ public class DBHelper extends SQLiteOpenHelper{
         contentValues = new ContentValues();
         contentValues.put("eventId", photo.getEventId());
         contentValues.put("title", photo.getTitle());
-        contentValues.put("filepath", photo.getPath());
+        contentValues.put("filepath", photo.getFilePath());
         long rowId = db.insert("photos", null, contentValues);
-        Log.d("tclog", "DBHelper: row inserted, id = " + rowId);
+        Log.d("tclog", "DBHelper: photo inserted, id = " + rowId);
+        this.close();
+    }
+
+    public void insertDocument(Document document){
+        db = getWritableDatabase();
+        contentValues = new ContentValues();
+        contentValues.put("eventId", document.getEventId());
+        contentValues.put("title", document.getTitle());
+        contentValues.put("filepath", document.getFilePath());
+        long rowId = db.insert("documents", null, contentValues);
+        Log.d("tclog", "DBHelper: document inserted, id = " + rowId);
         this.close();
     }
 
@@ -70,7 +89,6 @@ public class DBHelper extends SQLiteOpenHelper{
 
     public ArrayList<Photo> getPhotosByEventId(long eventId){
         ArrayList<Photo> photoList = new ArrayList<>();
-        contentValues = new ContentValues();
         db = getWritableDatabase();
         db.beginTransaction();
         try {
@@ -93,12 +111,43 @@ public class DBHelper extends SQLiteOpenHelper{
                     photo.setId(cursor.getLong(idColIndex));
                     photo.setEventId(cursor.getLong(eventIdColIndex));
                     photo.setTitle(cursor.getString(titleColIndex));
-                    photo.setPath(cursor.getString(filepathColIndex));
+                    photo.setFilePath(cursor.getString(filepathColIndex));
                     photoList.add(photo);
-                    Log.d("tclog", cursor.getString(filepathColIndex) + " title=" + cursor.getString(titleColIndex) + " eventId=" + cursor.getLong(eventIdColIndex));
+                    //Log.d("tclog", cursor.getString(filepathColIndex) + " title=" + cursor.getString(titleColIndex) + " eventId=" + cursor.getLong(eventIdColIndex));
                 } while (cursor.moveToNext());
             } else Log.d("tclog", "DBHelper: No photos attached to event");
         return photoList;
+    }
+
+    public ArrayList<Document> getDocumentsByEventId(long eventId){
+        ArrayList<Document> documentList = new ArrayList<>();
+        db = getWritableDatabase();
+        db.beginTransaction();
+        try{
+            String selection = "eventId = ?";
+            String[] selectionArgs = new String[] {((Long) eventId).toString() };
+            cursor = db.query("documents", null, selection, selectionArgs, null, null, null);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        if (cursor != null)
+            if (cursor.moveToFirst()){
+                int idColIndex = cursor.getColumnIndex("id");
+                int eventIdColIndex = cursor.getColumnIndex("eventId");
+                int titleColIndex = cursor.getColumnIndex("title");
+                int filepathColIndex = cursor.getColumnIndex("filepath");
+                do{
+                    Document document = new Document();
+                    document.setId(cursor.getLong(idColIndex));
+                    document.setEventId(cursor.getLong(eventIdColIndex));
+                    document.setTitle(cursor.getString(titleColIndex));
+                    document.setFilePath(cursor.getString(filepathColIndex));
+                    documentList.add(document);
+                } while (cursor.moveToNext());
+            } else Log.d("tclog", "DBHelper: No documents attached to event");
+        return documentList;
     }
 
     public void deleteAllPhotos(long eventId){
@@ -107,10 +156,23 @@ public class DBHelper extends SQLiteOpenHelper{
         Log.d("tclog", "DBHelper"  + deleteCount + " photos deleted");
     }
 
+    public void deleteAllDocuments(long eventId){
+        SQLiteDatabase db = getWritableDatabase();
+        int deleteCount = db.delete("documents", "eventId = ?", new String[] {((Long) eventId).toString() });
+        Log.d("tclog", "DBHelper: "  + deleteCount + " documents deleted");
+    }
+
+
     public void deletePhoto(long id){
         SQLiteDatabase db = getWritableDatabase();
         int deleteCount = db.delete("photos", "id = ?", new String[] {((Long) id).toString() });
         Log.d("tclog", "DBHelper"  + deleteCount + " photo deleted");
+    }
+
+    public void deleteDocument(long id){
+        SQLiteDatabase db = getWritableDatabase();
+        int deleteCount = db.delete("documents", "id = ?", new String[] {((Long) id).toString() });
+        Log.d("tclog", "DBHelper"  + deleteCount + " document deleted");
     }
 
 }

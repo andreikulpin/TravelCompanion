@@ -2,7 +2,6 @@ package com.kulpin.project.travelcompanion.adapter;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import com.kulpin.project.travelcompanion.dto.Photo;
 import com.kulpin.project.travelcompanion.utilities.GalleryUtilities;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -52,13 +50,11 @@ public class GridViewAdapter extends BaseAdapter{
         ImageView imageView;
         if (convertView == null) {
             imageView = new ImageView(activity);
-            Log.d("tclog", "getView/new ImageView " + position);
         } else {
             imageView = (ImageView) convertView;
-            Log.d("tclog", "getView/ convertView " + position);
         }
 
-        Bitmap image = GalleryUtilities.decodeBitmapFromResource(photoList.get(position).getPath(), imageWidth, imageWidth);
+        Bitmap image = GalleryUtilities.decodeBitmapFromResource(photoList.get(position).getFilePath(), imageWidth, imageWidth);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
         imageView.setImageBitmap(image);

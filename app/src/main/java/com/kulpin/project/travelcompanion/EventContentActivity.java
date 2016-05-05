@@ -8,8 +8,12 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +23,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.kulpin.project.travelcompanion.adapter.DocumentListAdapter;
 import com.kulpin.project.travelcompanion.adapter.GridViewAdapter;
+import com.kulpin.project.travelcompanion.dto.Document;
 import com.kulpin.project.travelcompanion.dto.EventDTO;
 import com.kulpin.project.travelcompanion.dto.Photo;
 import com.kulpin.project.travelcompanion.utilities.Constants;
@@ -28,6 +34,7 @@ import com.kulpin.project.travelcompanion.utilities.EventController;
 import com.kulpin.project.travelcompanion.utilities.FilePath;
 import com.kulpin.project.travelcompanion.utilities.GalleryUtilities;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -43,11 +50,15 @@ public class EventContentActivity extends AppCompatActivity {
     private TextView mTextPlace;
     private TextView mTextDate;
     private ImageView image;
+    private CardView attachDocument;
+    RecyclerView recyclerView;
     private CardView gallery;
     private GridView gridView;
     private CardView allPhotos;
     private CardView attachPhoto;
 
+    private ArrayList<Document> documentList;
+    private DocumentListAdapter documentListAdapter;
     private ArrayList<Photo> photoList;
     private GalleryUtilities galleryUtilities;
     private GridViewAdapter gridViewAdapter;
@@ -61,6 +72,7 @@ public class EventContentActivity extends AppCompatActivity {
 
         bindActivity();
         initToolbar();
+        initDocuments();
         //initNavigationView();
         Log.d("tclog", "onCreate");
     }
@@ -68,9 +80,9 @@ public class EventContentActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("tclog", "onResume");
         initGallery();
         setActivityCover();
+        Log.d("tclog", "onResume");
     }
 
     public static void start(Context context, long eventId){
@@ -94,6 +106,17 @@ public class EventContentActivity extends AppCompatActivity {
         image = (ImageView)findViewById(R.id.image);
         gallery = (CardView) findViewById(R.id.cardview_gallery_content);
         gridView = (GridView) findViewById(R.id.grid_view);
+
+        attachDocument = (CardView) findViewById(R.id.cardView_attach_document);
+        attachDocument.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("*/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select File"), Constants.RequestCodes.PICK_FILE_REQUEST);
+            }
+        });
         allPhotos = (CardView) findViewById(R.id.cardView_all_photos);
         allPhotos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,6 +175,13 @@ public class EventContentActivity extends AppCompatActivity {
                     }
                     break;
 
+                    case R.id.clear_documents:{
+                        dbHelper.deleteAllDocuments(eventId);
+                        documentList.clear();
+                        documentListAdapter.notifyDataSetChanged();
+                    }
+                    break;
+
                 }
                 return false;
             }
@@ -164,6 +194,14 @@ public class EventContentActivity extends AppCompatActivity {
         mTextPlace.setText(event.getPlace());
         mTextDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(event.getEventDate().getTime()));
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void initDocuments(){
+        documentList = dbHelper.getDocumentsByEventId(eventId);
+        recyclerView = (RecyclerView) findViewById(R.id.recycleView_documents);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        documentListAdapter = new DocumentListAdapter(documentList, this);
+        recyclerView.setAdapter(documentListAdapter);
     }
 
     private void initGallery() {
@@ -201,14 +239,14 @@ public class EventContentActivity extends AppCompatActivity {
             attachPhoto.setLayoutParams(params);
         }
 
-        Bitmap bitmap = GalleryUtilities.decodeBitmapFromResource(photoList.get(0).getPath(), galleryUtilities.getScreenWidth(), galleryUtilities.getScreenWidth());
+        Bitmap bitmap = GalleryUtilities.decodeBitmapFromResource(photoList.get(0).getFilePath(), galleryUtilities.getScreenWidth(), galleryUtilities.getScreenWidth());
         image.setImageBitmap(bitmap);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("tclog", "onActivityResult");
+
         if (requestCode == Constants.RequestCodes.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             String selectedImagePath;
             Uri selectedImageUri = data.getData();
@@ -216,7 +254,37 @@ public class EventContentActivity extends AppCompatActivity {
             Photo photo = new Photo(eventId, "photo", selectedImagePath);
             dbHelper.insertPhoto(photo);
         }
+
+        if (requestCode == Constants.RequestCodes.PICK_FILE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            String selectedFilePath;
+            Uri selectedFileUri = data.getData();
+
+            selectedFilePath = FilePath.getPath(getApplicationContext(), selectedFileUri);
+            Document document = new Document(eventId, selectedFileUri.getLastPathSegment(), selectedFilePath);
+            documentList.add(document);
+            dbHelper.insertDocument(document);
+            documentListAdapter.notifyDataSetChanged();
+        }
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_context, menu);
+        menu.removeItem(R.id.edit_context);
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.delete_context:{
+                int position = documentListAdapter.getSelectedPosition();
+                dbHelper.deleteDocument(documentList.get(position).getId());
+                documentList.remove(position);
+                documentListAdapter.notifyDataSetChanged();
+            }
+            break;
+        }
+        return super.onContextItemSelected(item);
+    }
 }

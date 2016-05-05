@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -109,7 +110,7 @@ public class GalleryActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        toolbar.inflateMenu(R.menu.menu_content);
+        toolbar.inflateMenu(R.menu.menu_gallery);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -127,11 +128,6 @@ public class GalleryActivity extends AppCompatActivity {
                         photoList.clear();
                         gridViewAdapter.notifyDataSetChanged();
                         onBackPressed();
-                    }
-
-                    case R.id.test_content:{
-                        Log.d("tclog", "adapter count = " + gridViewAdapter.getCount());
-
                     }
                 }
                 return false;

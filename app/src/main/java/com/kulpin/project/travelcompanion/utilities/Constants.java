@@ -31,7 +31,8 @@ public class Constants {
         public static final int JOURNEY_REQUEST = 1;
         public static final int EVENT_REQUEST = 2;
 
-        public static int PICK_IMAGE_REQUEST = 5;
+        public static int PICK_IMAGE_REQUEST = 3;
+        public static int PICK_FILE_REQUEST = 4;
     }
     public static class Actions{
         public static final String EDIT_JOURNEY_ACTION = "com.kulpin.project.edit_journey";
