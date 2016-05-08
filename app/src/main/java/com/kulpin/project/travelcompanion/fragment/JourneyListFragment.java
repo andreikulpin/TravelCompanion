@@ -1,6 +1,7 @@
 package com.kulpin.project.travelcompanion.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,15 +53,6 @@ public class JourneyListFragment extends TabFragment {
         return fragment;
     }
 
-    void downloadFile() {
-        // пауза - 1 секунда
-        Log.d("tclog", "sleep");
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,13 +93,14 @@ public class JourneyListFragment extends TabFragment {
     }
 
     public void syncJourneyList(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TCPrefs", Context.MODE_PRIVATE);
         final ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_main);
         progressBar.setVisibility(View.VISIBLE);
         String URL = "";
         switch (getArguments().getString("title")){
-            case "active": URL = Constants.URL.GET_ACTIVE_JOURNEYS + 1;
+            case "active": URL = Constants.URL.GET_ACTIVE_JOURNEYS + sharedPreferences.getLong("userId", 0);
                 break;
-            case "last": URL = Constants.URL.GET_LAST_JOURNEYS + 1;
+            case "last": URL = Constants.URL.GET_LAST_JOURNEYS + sharedPreferences.getLong("userId", 0);
                 break;
         }
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -142,12 +135,13 @@ public class JourneyListFragment extends TabFragment {
     }
 
     public void addNewJourney(JourneyDTO newJourney){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TCPrefs", Context.MODE_PRIVATE);
         String URL = Constants.URL.ADD_JOURNEY;
         JSONObject object = new JSONObject();
 
         try {
             if (newJourney.getId() != 0) object.accumulate("id", newJourney.getId());
-            object.accumulate("userId", Constants.userId);
+            object.accumulate("userId", sharedPreferences.getLong("userId", 0));
             object.accumulate("title", newJourney.getTitle());
             object.accumulate("startDate", newJourney.getStartDate().getTime());
             object.accumulate("endDate", newJourney.getEndDate().getTime());

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kulpin.project.travelcompanion.dto.EventDTO;
@@ -30,14 +33,27 @@ public class MainActivity extends AppCompatActivity{
     private FragmentTransaction fragmentTransaction;
     private PagesContainerFragment pagesContainerFragment;
     private DrawerLayout drawerLayout;
+    private TextView usernameNav;
+    private TextView emailNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
+        initUser();
         initToolbar();
         initFragment();
         initNavigationView();
+    }
+
+
+
+    private void initUser() {
+        SharedPreferences sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
+        if (sharedPreferences.getLong("userId", 0) == 0){
+            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void initToolbar() {
@@ -57,7 +73,7 @@ public class MainActivity extends AppCompatActivity{
                             startActivityForResult(intent, Constants.RequestCodes.EVENT_REQUEST);
                         }
                         break;
-                    case R.id.delete:
+                    case R.id.deleteLastItem:
                         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PagesContainerFragment) {
                             pagesContainerFragment.onDelete();
                         }
@@ -72,25 +88,7 @@ public class MainActivity extends AppCompatActivity{
                         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof EventListFragment) {
                             eventListFragment.syncEventList();
                         }
-
                         break;
-                    case R.id.gallery:
-                        Intent intent = new Intent(getBaseContext(), GalleryActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.saveUser:
-                        SharedPreferences sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putLong("userId", 1);
-                        editor.putString("username", "user");
-                        editor.commit();
-                        Toast.makeText(getApplicationContext(), "User Saved", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.loadUser:
-                        sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
-                        Long userId = sharedPreferences.getLong("userId", 0);
-                        String user = sharedPreferences.getString("username", "") + userId;
-                        Toast.makeText(getApplicationContext(), user, Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -103,16 +101,37 @@ public class MainActivity extends AppCompatActivity{
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.view_navigation_open, R.string.view_navigation_close);
+
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_main);
+        navigationView.inflateMenu(R.menu.menu_navigation_main);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 drawerLayout.closeDrawers();
+                switch (item.getItemId()) {
+                    case R.id.logout:
+                        SharedPreferences sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putLong("userId", 0);
+                        editor.putString("username", "");
+                        editor.putString("email", "");
+                        editor.commit();
+                        Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
+                        initUser();
+                        break;
+                }
                 return true;
             }
         });
+
+        navigationView.inflateHeaderView(R.layout.navigation_header);
+        SharedPreferences sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
+        usernameNav = (TextView)navigationView.getHeaderView(0).findViewById(R.id.username_navigation);
+        usernameNav.setText(sharedPreferences.getString("username", ""));
+        emailNav = (TextView) navigationView.getHeaderView(0).findViewById(R.id.email_navigation);
+        emailNav.setText(sharedPreferences.getString("email", ""));
     }
 
     private void initFragment(){
@@ -122,7 +141,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    public void onItemClicked(int position, long journeyId) {
+    public void onReplaceFragment(int position, long journeyId) {
         onFragmentReplace(journeyId);
     }
 
@@ -210,6 +229,10 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof EventListFragment) {
             toolbar.setTitle(R.string.journeys);
         }

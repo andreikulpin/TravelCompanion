@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +101,7 @@ public class JourneyListAdapter extends RecyclerView.Adapter<JourneyListAdapter.
         @Override
         public void onClick(View v) {
             //((MainActivity)activity).onFragmentReplace(list.get(getAdapterPosition()).getId());
-            ((MainActivity)activity).onItemClicked(getAdapterPosition(), list.get(getAdapterPosition()).getId());
+            ((MainActivity)activity).onReplaceFragment(getAdapterPosition(), list.get(getAdapterPosition()).getId());
         }
 
         @Override

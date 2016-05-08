@@ -12,21 +12,9 @@
         android:icon="@mipmap/ic_plus_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="never" />
-    <item android:id="@+id/delete"
-        android:title="Delete Last"
+    <item android:id="@+id/deleteLastItem"
+        android:title="Delete Last Item"
         android:icon="@mipmap/ic_delete_white_24dp"
-        android:orderInCategory="1"
-        app:showAsAction="never"/>
-    <item android:id="@+id/gallery"
-        android:title="Gallery"
-        android:orderInCategory="1"
-        app:showAsAction="never"/>
-    <item android:id="@+id/saveUser"
-        android:title="Save User"
-        android:orderInCategory="1"
-        app:showAsAction="never"/>
-    <item android:id="@+id/loadUser"
-        android:title="Load User"
         android:orderInCategory="1"
         app:showAsAction="never"/>
 </menu>

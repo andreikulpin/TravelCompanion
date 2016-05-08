@@ -22,7 +22,9 @@
         <activity android:name=".EventContentActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".AddJourneyActivity" />
-        <activity android:name=".GalleryActivity"></activity>
+        <activity android:name=".GalleryActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SingupActivity"></activity>
     </application>
 
 </manifest>
