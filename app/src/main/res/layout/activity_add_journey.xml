@@ -46,13 +46,13 @@
                     android:id="@+id/addStartDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Choose start date"/>
+                    android:text="@string/choose_start_date"/>
 
                 <Button
                     android:id="@+id/addEndDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Choose end date"/>
+                    android:text="@string/choose_end_date"/>
             </LinearLayout>
         </FrameLayout>
 

@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity{
     private FragmentTransaction fragmentTransaction;
     private PagesContainerFragment pagesContainerFragment;
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private TextView usernameNav;
     private TextView emailNav;
 
@@ -46,13 +48,11 @@ public class MainActivity extends AppCompatActivity{
         initNavigationView();
     }
 
-
-
     private void initUser() {
         SharedPreferences sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
         if (sharedPreferences.getLong("userId", 0) == 0){
             Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, Constants.RequestCodes.LOGIN_REQUEST);
         }
     }
 
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof EventListFragment) {
                             Intent intent = new Intent(getBaseContext(), AddEventActivity.class);
+                            intent.putExtra(JourneyDTO.class.getCanonicalName(), eventListFragment.getJourney());
                             startActivityForResult(intent, Constants.RequestCodes.EVENT_REQUEST);
                         }
                         break;
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity{
 
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_main);
+        navigationView = (NavigationView) findViewById(R.id.navigation_main);
         navigationView.inflateMenu(R.menu.menu_navigation_main);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -141,14 +142,15 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    public void onReplaceFragment(int position, long journeyId) {
-        onFragmentReplace(journeyId);
+    public void onReplaceFragment(int position, JourneyDTO journey) {
+        onFragmentReplace(journey);
     }
 
-    public void onFragmentReplace(long journeyId){
+    public void onFragmentReplace(JourneyDTO journey){
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
-        bundle.putLong("journeyId", journeyId);
+        bundle.putLong("journeyId", journey.getId());
+        bundle.putParcelable(JourneyDTO.class.getCanonicalName(), journey);
         eventListFragment = new EventListFragment();
         eventListFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.fragment_container, eventListFragment);
@@ -170,6 +172,14 @@ public class MainActivity extends AppCompatActivity{
             case Constants.RequestCodes.EVENT_REQUEST:
                 eventListFragment.addNewEvent((EventDTO) data.getParcelableExtra(EventDTO.class.getCanonicalName()));
                 break;
+            case Constants.RequestCodes.LOGIN_REQUEST:
+                SharedPreferences sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
+                usernameNav.setText(sharedPreferences.getString("username", ""));
+                emailNav.setText(sharedPreferences.getString("email", ""));
+                if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PagesContainerFragment) {
+                    pagesContainerFragment.onRefresh();
+                }
+                break;
         }
     }
 
@@ -182,7 +192,6 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         if ((getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PagesContainerFragment))
             switch (item.getItemId()){
                 case R.id.delete_context:{
@@ -218,6 +227,7 @@ public class MainActivity extends AppCompatActivity{
                     intent.setAction(Constants.Actions.EDIT_EVENT_ACTION);
                     EventDTO event = eventListFragment.getEventByPosition(eventListFragment.getEventListAdapter().getSelectedPosition());
                     intent.putExtra(EventDTO.class.getCanonicalName(), event);
+                    intent.putExtra(JourneyDTO.class.getCanonicalName(), eventListFragment.getJourney());
                     startActivityForResult(intent, Constants.RequestCodes.EVENT_REQUEST);
                 }
             }

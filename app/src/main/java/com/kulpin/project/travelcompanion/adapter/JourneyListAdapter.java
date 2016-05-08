@@ -101,7 +101,7 @@ public class JourneyListAdapter extends RecyclerView.Adapter<JourneyListAdapter.
         @Override
         public void onClick(View v) {
             //((MainActivity)activity).onFragmentReplace(list.get(getAdapterPosition()).getId());
-            ((MainActivity)activity).onReplaceFragment(getAdapterPosition(), list.get(getAdapterPosition()).getId());
+            ((MainActivity)activity).onReplaceFragment(getAdapterPosition(), list.get(getAdapterPosition()));
         }
 
         @Override

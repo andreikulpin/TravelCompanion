@@ -53,10 +53,11 @@ public class Constants {
         public static final int JOURNEY_REQUEST = 1;
         public static final int EVENT_REQUEST = 2;
 
-        public static int PICK_IMAGE_REQUEST = 3;
-        public static int PICK_FILE_REQUEST = 4;
+        public static final int PICK_IMAGE_REQUEST = 3;
+        public static final int PICK_FILE_REQUEST = 4;
 
-        public static int SIGNUP_REQUEST = 5;
+        public static final int LOGIN_REQUEST = 5;
+        public static final int SIGNUP_REQUEST = 6;
     }
 
     public static class Actions{

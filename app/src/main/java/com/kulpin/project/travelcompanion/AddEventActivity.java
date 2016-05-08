@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.kulpin.project.travelcompanion.dto.EventDTO;
+import com.kulpin.project.travelcompanion.dto.JourneyDTO;
 import com.kulpin.project.travelcompanion.fragment.DatePickerFragment;
 import com.kulpin.project.travelcompanion.utilities.Constants;
 
@@ -27,6 +29,7 @@ public class AddEventActivity extends FragmentActivity {
     private EditText addDistance;
     private Toolbar toolbar;
     private EventDTO newEvent;
+    private JourneyDTO journey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +59,30 @@ public class AddEventActivity extends FragmentActivity {
         addDate.setOnClickListener(OnClickListener());
         eventDate = new GregorianCalendar();
         newEvent = new EventDTO();
+        journey = getIntent().getParcelableExtra(JourneyDTO.class.getCanonicalName());
     }
 
     private void initToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Create event");
         toolbar.inflateMenu(R.menu.menu_create);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.done: {
+                        if (addTitle.getText().toString().length() == 0){
+                            Toast.makeText(getBaseContext(), "Please, enter a title", Toast.LENGTH_LONG).show();
+                            break;
+                        }
+                        if (addPlace.getText().toString().length() == 0){
+                            Toast.makeText(getBaseContext(), "Please, enter a place", Toast.LENGTH_LONG).show();
+                            break;
+                        }
+                        if (addDate.getText().toString().equals(getResources().getString(R.string.choose_end_date))) {
+                            Toast.makeText(getBaseContext(), "Please, choose end date", Toast.LENGTH_LONG).show();
+                            break;
+                        }
                         Intent intent = new Intent();
                         newEvent.setTitle(addTitle.getText().toString());
                         newEvent.setPlace(addPlace.getText().toString());
@@ -101,7 +118,14 @@ public class AddEventActivity extends FragmentActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 eventDate.set(year, monthOfYear, dayOfMonth);
-                                addDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(eventDate.getTime()));
+                                if (eventDate.getTimeInMillis() < journey.getStartDate().getTime() ||
+                                        eventDate.getTimeInMillis() > journey.getEndDate().getTime()){
+                                    Toast.makeText(getBaseContext(), "Event date must be within journey dates" + "(" +
+                                            (new SimpleDateFormat("dd.MM.yyyy")).format(journey.getStartDate().getTime()) + " - " +
+                                            (new SimpleDateFormat("dd.MM.yyyy")).format(journey.getEndDate().getTime()) + ")", Toast.LENGTH_LONG).show();
+                                } else {
+                                    addDate.setText((new SimpleDateFormat("dd.MM.yyyy")).format(eventDate.getTime()));
+                                }
                             }
                         };
                         dateFragment.show(getFragmentManager(), "DatePicker");

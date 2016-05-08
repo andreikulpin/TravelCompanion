@@ -53,7 +53,7 @@
                     android:id="@+id/addDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Choose a date"/>
+                    android:text="@string/choose_date"/>
 
                 <EditText
                     android:id="@+id/addDistance"

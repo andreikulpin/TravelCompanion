@@ -7,4 +7,8 @@
 
     <string name="view_navigation_open">Open</string>
     <string name="view_navigation_close">Close</string>
+
+    <string name="choose_date">Choose date</string>
+    <string name="choose_start_date">Choose start date</string>
+    <string name="choose_end_date">Choose end date</string>
 </resources>

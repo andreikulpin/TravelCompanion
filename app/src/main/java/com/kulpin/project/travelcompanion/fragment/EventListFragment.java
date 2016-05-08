@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.kulpin.project.travelcompanion.dto.JourneyDTO;
 import com.kulpin.project.travelcompanion.utilities.AppController;
 import com.kulpin.project.travelcompanion.utilities.Constants;
 import com.kulpin.project.travelcompanion.R;
@@ -171,6 +172,9 @@ public class EventListFragment extends TabFragment{
         return list.get(position);
     }
 
+    public JourneyDTO getJourney(){
+        return getArguments().getParcelable(JourneyDTO.class.getCanonicalName());
+    }
 
     private List<EventDTO> createMockEventListData() {
         List<EventDTO> list = new ArrayList<>();

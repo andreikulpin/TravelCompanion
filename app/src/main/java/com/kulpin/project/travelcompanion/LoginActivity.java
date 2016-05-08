@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.RequestCodes.SIGNUP_REQUEST)
             if (resultCode == RESULT_OK){
+                setResult(RESULT_OK);
                 finish();
             }
     }
@@ -97,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString("email", user.getEmail());
         editor.commit();
 
+        setResult(RESULT_OK, new Intent());
         finish();
     }
 
