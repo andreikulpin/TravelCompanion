@@ -48,6 +48,10 @@ public class MainActivity extends AppCompatActivity{
         initNavigationView();
     }
 
+
+    /*
+    * Check if user account exists on this device
+    * if account is empty calls login activity*/
     private void initUser() {
         SharedPreferences sharedPreferences = getSharedPreferences("TCPrefs", MODE_PRIVATE);
         if (sharedPreferences.getLong("userId", 0) == 0){
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    /*toolbar initialization*/
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.journeys);
@@ -74,14 +79,6 @@ public class MainActivity extends AppCompatActivity{
                             startActivityForResult(intent, Constants.RequestCodes.EVENT_REQUEST);
                         }
                         break;
-                    case R.id.deleteLastItem:
-                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PagesContainerFragment) {
-                            pagesContainerFragment.onDelete();
-                        }
-                        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof EventListFragment) {
-                            eventListFragment.deleteEvent(0);
-                        }
-                        break;
                     case R.id.refresh:
                         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof PagesContainerFragment) {
                             pagesContainerFragment.onRefresh();
@@ -98,7 +95,7 @@ public class MainActivity extends AppCompatActivity{
         toolbar.inflateMenu(R.menu.menu_main);
     }
 
-
+    /*navigation initialization*/
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.view_navigation_open, R.string.view_navigation_close);
@@ -135,6 +132,7 @@ public class MainActivity extends AppCompatActivity{
         emailNav.setText(sharedPreferences.getString("email", ""));
     }
 
+    /*initialization of main fragment with the list of journeys*/
     private void initFragment(){
         if(findViewById(R.id.fragment_container) != null){
             pagesContainerFragment = new PagesContainerFragment();
@@ -142,10 +140,11 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    /*if journey list item selected, fragment with journey lists replaces by
+    * EventListFragment*/
     public void onReplaceFragment(int position, JourneyDTO journey) {
         onFragmentReplace(journey);
     }
-
     public void onFragmentReplace(JourneyDTO journey){
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
@@ -247,10 +246,6 @@ public class MainActivity extends AppCompatActivity{
             toolbar.setTitle(R.string.journeys);
         }
         super.onBackPressed();
-    }
-
-    public PagesContainerFragment getPagesContainerFragment() {
-        return pagesContainerFragment;
     }
 
     /*private class EventTask extends AsyncTask<Void, Void, EventDTO> {

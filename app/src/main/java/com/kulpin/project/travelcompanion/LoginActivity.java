@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /*when button clicked*/
     public void login(){
         if (!validate()){
             onLoginFailed();

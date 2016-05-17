@@ -51,7 +51,7 @@ public class EventContentActivity extends AppCompatActivity {
     private TextView mTextDate;
     private ImageView image;
     private CardView attachDocument;
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private CardView gallery;
     private GridView gridView;
     private CardView allPhotos;
@@ -188,6 +188,7 @@ public class EventContentActivity extends AppCompatActivity {
         });
     }
 
+    /*setting of TextViews with the data from event*/
     public void setEvent(EventDTO event){
         this.event = event;
         toolbar.setTitle(event.getTitle());
@@ -196,6 +197,7 @@ public class EventContentActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
     }
 
+    /*document list initialization*/
     private void initDocuments(){
         documentList = dbHelper.getDocumentsByEventId(eventId);
         recyclerView = (RecyclerView) findViewById(R.id.recycleView_documents);
@@ -204,6 +206,7 @@ public class EventContentActivity extends AppCompatActivity {
         recyclerView.setAdapter(documentListAdapter);
     }
 
+    /*photos grid initialization*/
     private void initGallery() {
         photoList = dbHelper.getPhotosByEventId(eventId);
         while(photoList.size() > 3) photoList.remove(photoList.size() - 1);

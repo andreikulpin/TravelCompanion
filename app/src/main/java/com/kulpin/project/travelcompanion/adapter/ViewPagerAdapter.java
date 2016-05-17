@@ -24,7 +24,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     private void initTabsMap(Context context) {
-
         tabs = new HashMap<>();
         tabs.put(0, JourneyListFragment.getInstance(context, "active"));
         tabs.put(1, JourneyListFragment.getInstance(context, "last"));
@@ -44,8 +43,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return tabs.size();
     }
-
-
 
     public void onRefresh(){
         ((JourneyListFragment)tabs.get(0)).syncJourneyList();

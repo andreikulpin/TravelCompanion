@@ -53,7 +53,6 @@ public class JourneyListFragment extends TabFragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,22 +73,6 @@ public class JourneyListFragment extends TabFragment {
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).build());
 
         return view;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public JourneyListAdapter getJourneyListAdapter() {
-        return journeyListAdapter;
-    }
-
-    public long getItemId(int position){
-        return list.get(position).getId();
-    }
-
-    public JourneyDTO getJourneyByPosition(int position){
-        return list.get(position);
     }
 
     public void syncJourneyList(){
@@ -191,6 +174,22 @@ public class JourneyListFragment extends TabFragment {
         });
         AppController.getInstance().addToRequestQueue(request);
 
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public JourneyListAdapter getJourneyListAdapter() {
+        return journeyListAdapter;
+    }
+
+    public long getItemId(int position){
+        return list.get(position).getId();
+    }
+
+    public JourneyDTO getJourneyByPosition(int position){
+        return list.get(position);
     }
 
 

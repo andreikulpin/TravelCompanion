@@ -28,7 +28,7 @@ public class Constants {
         public static final String GET_ALL_JOURNEYS = HOST + "journeys/all/";
         public static final String GET_ACTIVE_JOURNEYS = HOST + "journeys/active/";
         public static final String GET_LAST_JOURNEYS = HOST + "journeys/last/";
-        public static final String GET_JOURNEY = HOST + "journeys/eventById/";
+        public static final String GET_JOURNEY = HOST + "journeys/journeyById/";
         public static final String ADD_JOURNEY = HOST + "journeys/newJourney";
         public static final String DELETE_JOURNEY = HOST + "journeys/delete/";
     }
@@ -50,7 +50,9 @@ public class Constants {
 
     /*Intent*/
     public static class RequestCodes{
+        /*Create or edit journey*/
         public static final int JOURNEY_REQUEST = 1;
+        /*Create or edit event*/
         public static final int EVENT_REQUEST = 2;
 
         public static final int PICK_IMAGE_REQUEST = 3;

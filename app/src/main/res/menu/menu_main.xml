@@ -12,9 +12,4 @@
         android:icon="@mipmap/ic_plus_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="never" />
-    <item android:id="@+id/deleteLastItem"
-        android:title="Delete Last Item"
-        android:icon="@mipmap/ic_delete_white_24dp"
-        android:orderInCategory="1"
-        app:showAsAction="never"/>
 </menu>
