@@ -102,7 +102,7 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     public void initToolbar(){
-        toolbar.setTitle(title + " photos");
+        toolbar.setTitle(title + " " + getString(R.string.gallery_photos));
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_left_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

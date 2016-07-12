@@ -67,6 +67,10 @@ public class Constants {
         public static final String EDIT_EVENT_ACTION = "com.kulpin.project.edit_event";
     }
 
+    /*Tabs*/
+    public static final int TAB_ACTIVE = 1;
+    public static final int TAB_LAST = 2;
+
     /*Gallery*/
     public static final String PHOTOS_DIRECTORY = "TCPhotos";
     public static final List<String> FILE_EXTENSIONS = Arrays.asList("jpg", "jpeg", "png");

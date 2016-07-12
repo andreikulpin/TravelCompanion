@@ -41,19 +41,19 @@
                     android:id="@+id/addTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Title"/>
+                    android:hint="@string/create_hint_title"/>
 
                 <EditText
                     android:id="@+id/addPlace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Place"/>
+                    android:hint="@string/create_hint_place"/>
 
                 <Button
                     android:id="@+id/addDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/choose_date"/>
+                    android:text="@string/create_choose_date"/>
 
                 <EditText
                     android:id="@+id/addDistance"

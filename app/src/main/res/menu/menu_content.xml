@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/refresh_content"
-        android:title="Refresh"
+        android:title="@string/menu_refresh"
         android:icon="@mipmap/ic_refresh_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/attach_photo"
-        android:title="Attach photo"
+        android:title="@string/menu_attach_photo"
         android:icon="@mipmap/ic_plus_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="never" />
     <item android:id="@+id/clear_gallery"
-        android:title="Delete all photos"
+        android:title="@string/menu_delete_all_photos"
         android:icon="@mipmap/ic_plus_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="never" />
     <item android:id="@+id/clear_documents"
-        android:title="Delete all documents"
+        android:title="@string/menu_delete_all_documents"
         android:icon="@mipmap/ic_plus_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="never" />

@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity{
         initNavigationView();
     }
 
-
     /*
     * Check if user account exists on this device
     * if account is empty calls login activity*/
@@ -116,7 +115,7 @@ public class MainActivity extends AppCompatActivity{
                         editor.putString("username", "");
                         editor.putString("email", "");
                         editor.commit();
-                        Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
                         initUser();
                         break;
                 }
@@ -185,7 +184,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Options");
+        menu.setHeaderTitle(getString(R.string.options));
         getMenuInflater().inflate(R.menu.menu_context, menu);
     }
 

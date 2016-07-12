@@ -64,7 +64,7 @@ public class AddEventActivity extends FragmentActivity {
 
     private void initToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Create event");
+        toolbar.setTitle(getString(R.string.create_event));
         toolbar.inflateMenu(R.menu.menu_create);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -72,15 +72,15 @@ public class AddEventActivity extends FragmentActivity {
                 switch (item.getItemId()) {
                     case R.id.done: {
                         if (addTitle.getText().toString().length() == 0){
-                            Toast.makeText(getBaseContext(), "Please, enter a title", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), getString(R.string.create_error_enter_title), Toast.LENGTH_LONG).show();
                             break;
                         }
                         if (addPlace.getText().toString().length() == 0){
-                            Toast.makeText(getBaseContext(), "Please, enter a place", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), getString(R.string.create_error_enter_place), Toast.LENGTH_LONG).show();
                             break;
                         }
-                        if (addDate.getText().toString().equals(getResources().getString(R.string.choose_end_date))) {
-                            Toast.makeText(getBaseContext(), "Please, choose end date", Toast.LENGTH_LONG).show();
+                        if (addDate.getText().toString().equals(getResources().getString(R.string.create_choose_date))) {
+                            Toast.makeText(getBaseContext(), getString(R.string.create_error_enter_date), Toast.LENGTH_LONG).show();
                             break;
                         }
                         Intent intent = new Intent();
@@ -120,7 +120,7 @@ public class AddEventActivity extends FragmentActivity {
                                 eventDate.set(year, monthOfYear, dayOfMonth);
                                 if (eventDate.getTimeInMillis() < journey.getStartDate().getTime() ||
                                         eventDate.getTimeInMillis() > journey.getEndDate().getTime()){
-                                    Toast.makeText(getBaseContext(), "Event date must be within journey dates" + "(" +
+                                    Toast.makeText(getBaseContext(), getString(R.string.create_error_date_out_of_bounds) + "(" +
                                             (new SimpleDateFormat("dd.MM.yyyy")).format(journey.getStartDate().getTime()) + " - " +
                                             (new SimpleDateFormat("dd.MM.yyyy")).format(journey.getEndDate().getTime()) + ")", Toast.LENGTH_LONG).show();
                                 } else {

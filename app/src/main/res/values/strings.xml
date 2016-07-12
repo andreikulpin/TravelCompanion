@@ -5,10 +5,68 @@
     <string name="events">Events</string>
     <string name="gallery">Gallery</string>
 
+    <string name="active">ACTIVE</string>
+    <string name="last">LAST</string>
+
     <string name="view_navigation_open">Open</string>
     <string name="view_navigation_close">Close</string>
 
-    <string name="choose_date">Choose date</string>
-    <string name="choose_start_date">Choose start date</string>
-    <string name="choose_end_date">Choose end date</string>
+    <string name="navigation_logout">Logout</string>
+
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_add_item">Add item</string>
+    <string name="menu_attach_photo">Attach photo</string>
+    <string name="menu_delete_all_photos">Delete all photos</string>
+    <string name="menu_delete_all_documents">Delete all documents</string>
+
+    <string name="options">Options</string>
+    <string name="context_edit">Edit</string>
+    <string name="context_delete">Delete</string>
+
+    <string name="create_journey">Create journey</string>
+    <string name="create_event">Create event</string>
+    <string name="create_hint_title">Title</string>
+    <string name="create_choose_date">Choose date</string>
+    <string name="create_hint_place">Place</string>
+    <string name="create_choose_start_date">Choose start date</string>
+    <string name="create_choose_end_date">Choose end date</string>
+    <string name="create_done">Done</string>
+    <string name="create_error_enter_title">Please, enter a title</string>
+    <string name="create_error_enter_place">Please, enter a place</string>
+    <string name="create_error_enter_date">Please, choose event date</string>
+    <string name="create_error_enter_start_date">Please, choose start date</string>
+    <string name="create_error_enter_end_date">Please, choose end date</string>
+    <string name="create_error_start_later_than_end">Start date must be earlier than end date</string>
+    <string name="create_error_end_precedes_start">End date must be later than start date</string>
+    <string name="create_error_date_out_of_bounds">Event date must be within journey dates</string>
+    
+    <string name="content_documents">Documents</string>
+    <string name="content_photos">Photos</string>
+    <string name="content_attach_document">ATTACH DOCUMENT</string>
+    <string name="content_attach_photo">ATTACH PHOTO</string>
+    <string name="content_all_photos">ALL PHOTOS</string>
+    <string name="gallery_photos">photos</string>
+
+    <string name="login">LOGIN</string>
+    <string name="login_hint_email">Email</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_create_account">Create account</string>
+    <string name="login_login_successful">Login successful</string>
+    <string name="login_failed">Login failed</string>
+    <string name="login_email_not_found">Email not found</string>
+    <string name="login_incorrect_password">Incorrect password</string>
+    <string name="login_invalid_email">Enter a valid email address</string>
+    <string name="login_invalid_password">Enter between 6 and 20 alphanumeric characters</string>
+
+    <string name="signup_hint_username">Username</string>
+    <string name="signup_create_account">Create account</string>
+    <string name="signup_login">Have account? Login</string>
+    <string name="signup_failed">Signup failed</string>
+    <string name="signup_successful">Account created</string>
+    <string name="signup_username_exists">Username already exists</string>
+    <string name="signup_email_exists">Email already exists</string>
+    <string name="signup_invalid_username">Enter at least 3 characters</string>
+    <string name="signup_invalid_email">Enter valid email address</string>
+    <string name="signup_invalid_password">Enter between 6 and 20 alphanumeric characters</string>
+
 </resources>

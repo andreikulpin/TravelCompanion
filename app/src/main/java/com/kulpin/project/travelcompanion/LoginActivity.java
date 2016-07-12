@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
         loginButton.setEnabled(true);
     }
 
@@ -114,14 +114,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailText.setError("Enter a valid email address");
+            emailText.setError(getString(R.string.login_invalid_email));
             isValid = false;
         } else {
             emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 6 || password.length() > 20) {
-            passwordText.setError("Enter between 6 and 20 alphanumeric characters");
+            passwordText.setError(getString(R.string.login_invalid_password));
             isValid = false;
         } else {
             passwordText.setError(null);
@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
                     user.setEmail(response.getString("email"));
                 } catch (JSONException e){}
                 Log.d("tclog", "Login successful");
-                Toast.makeText(getBaseContext(), "Login successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), getString(R.string.login_login_successful), Toast.LENGTH_SHORT).show();
                 onLoginSuccess();
             }
         }, new Response.ErrorListener() {
@@ -159,8 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             String errorBody = new String(error.networkResponse.data,"UTF-8");
                             if (Integer.parseInt(errorBody) == Constants.HttpMessageCodes.EMAIL_NOT_FOUND)
-                                Log.d("tclog", "Email not found ");
-                            Toast.makeText(getBaseContext(), "Email not found", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), getString(R.string.login_email_not_found), Toast.LENGTH_SHORT).show();
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
@@ -171,8 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             String errorBody = new String(error.networkResponse.data,"UTF-8");
                             if (Integer.parseInt(errorBody) == Constants.HttpMessageCodes.INCORRECT_PASSWORD)
-                                Log.d("tclog", "Incorrect password");
-                            Toast.makeText(getBaseContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), getString(R.string.login_incorrect_password), Toast.LENGTH_SHORT).show();
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }

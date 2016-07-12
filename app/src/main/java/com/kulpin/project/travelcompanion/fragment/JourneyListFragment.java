@@ -44,9 +44,10 @@ public class JourneyListFragment extends TabFragment {
     private JourneyListAdapter journeyListAdapter;
     private List<JourneyDTO> list;
 
-    public static JourneyListFragment getInstance(Context context, String title){
+    public static JourneyListFragment getInstance(Context context, String title, int tab){
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putInt("tab", tab);
         JourneyListFragment fragment = new JourneyListFragment();
         fragment.setArguments(args);
         fragment.setContext(context);
@@ -58,11 +59,13 @@ public class JourneyListFragment extends TabFragment {
         super.onCreate(savedInstanceState);
     }
 
+
+    /*перенести в onStart*/
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(LAYOUT, container, false);
-        Log.d("myLOG", "onCreateView " + this.toString());
+        //Log.d("tclog", "onCreateView " + this.toString());
         list = new ArrayList<>();
         syncJourneyList();
 
@@ -76,14 +79,19 @@ public class JourneyListFragment extends TabFragment {
     }
 
     public void syncJourneyList(){
+        Log.d("tclog", "syncJourneyList");
+        if (getActivity() == null) {
+            //Log.d("tclog", "getActivity is null");
+            return;
+        }
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TCPrefs", Context.MODE_PRIVATE);
         final ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress_main);
         progressBar.setVisibility(View.VISIBLE);
         String URL = "";
-        switch (getArguments().getString("title")){
-            case "active": URL = Constants.URL.GET_ACTIVE_JOURNEYS + sharedPreferences.getLong("userId", 0);
+        switch (getArguments().getInt("tab")){
+            case Constants.TAB_ACTIVE: URL = Constants.URL.GET_ACTIVE_JOURNEYS + sharedPreferences.getLong("userId", 0);
                 break;
-            case "last": URL = Constants.URL.GET_LAST_JOURNEYS + sharedPreferences.getLong("userId", 0);
+            case Constants.TAB_LAST: URL = Constants.URL.GET_LAST_JOURNEYS + sharedPreferences.getLong("userId", 0);
                 break;
         }
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -94,6 +102,7 @@ public class JourneyListFragment extends TabFragment {
                 }
                 list.clear();
                 for(int i=0;i<response.length();i++){
+                    //Log.d("tclog", "response " + response);
                     try{
                         JSONObject obj=response.getJSONObject(i);
                         JourneyDTO item=new JourneyDTO();
@@ -112,6 +121,7 @@ public class JourneyListFragment extends TabFragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("tclog", "volley error");
             }
         });
         AppController.getInstance().addToRequestQueue(jsonArrayRequest);

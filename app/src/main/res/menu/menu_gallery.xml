@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/attach_photo"
-        android:title="Attach photo"
+        android:title="@string/menu_attach_photo"
         android:icon="@mipmap/ic_plus_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="always" />
     <item android:id="@+id/clear_gallery"
-        android:title="Delete all photos"
+        android:title="@string/menu_delete_all_photos"
         android:icon="@mipmap/ic_plus_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="never" />

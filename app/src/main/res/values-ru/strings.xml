@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="journeys">Путешествия</string>
+    <string name="events">События</string>
+    <string name="gallery">Галерея</string>
+
+    <string name="active">ТЕКУЩИЕ</string>
+    <string name="last">ПРОШЕДШИЕ</string>
+
+    <string name="view_navigation_open">Open</string>
+    <string name="view_navigation_close">Close</string>
+
+    <string name="navigation_logout">Выйти</string>
+
+    <string name="menu_refresh">Обновить</string>
+    <string name="menu_add_item">Добавить</string>
+    <string name="menu_attach_photo">Прикрепить фото</string>
+    <string name="menu_delete_all_photos">Удалить все фото</string>
+    <string name="menu_delete_all_documents">Удалить все документы</string>
+
+    <string name="options">Опции</string>
+    <string name="context_edit">Редактировать</string>
+    <string name="context_delete">Удалить</string>
+
+    <string name="create_journey">Создание путешествия</string>
+    <string name="create_event">Создание события</string>
+    <string name="create_hint_title">Название</string>
+    <string name="create_choose_date">Выберите дату</string>
+    <string name="create_hint_place">Место</string>
+    <string name="create_choose_start_date">Выберите дату начала</string>
+    <string name="create_choose_end_date">Выберите конечную дату</string>
+    <string name="create_done">Применить</string>
+    <string name="create_error_enter_title">Введите название</string>
+    <string name="create_error_enter_place">Введите место</string>
+    <string name="create_error_enter_date">Выберите дату</string>
+    <string name="create_error_enter_start_date">Выберите дату начала</string>
+    <string name="create_error_enter_end_date">Выберите конечную дату</string>
+    <string name="create_error_start_later_than_end">Дата начала должна предшествовать конечной</string>
+    <string name="create_error_end_precedes_start">Конечная дата должна быть позднее начальной</string>
+    <string name="create_error_date_out_of_bounds">Дата события не входит в даты путешествия</string>
+
+    <string name="content_documents">Документы</string>
+    <string name="content_photos">Фотографии</string>
+    <string name="content_attach_document">ПРИКРЕПИТЬ ДОКУМЕНТ</string>
+    <string name="content_attach_photo">ПРИКРЕПИТЬ ФОТОГРАФИЮ</string>
+    <string name="content_all_photos">ВСЕ ФОТОГРАФИИ</string>
+    <string name="gallery_photos"></string>
+
+    <string name="login">Войти</string>
+    <string name="login_hint_email">Email</string>
+    <string name="login_hint_password">Пароль</string>
+    <string name="login_create_account">Создать учетную запись</string>
+    <string name="login_login_successful">Успешный вход</string>
+    <string name="login_failed">Ошибка входа</string>
+    <string name="login_email_not_found">Email не найден</string>
+    <string name="login_incorrect_password">Неверный пароль</string>
+    <string name="login_invalid_email">Некорректный email</string>
+    <string name="login_invalid_password">Пароль должен содержать от 6 до 20 символов</string>
+
+    <string name="signup_hint_username">Имя</string>
+    <string name="signup_create_account">Создать учетную запись</string>
+    <string name="signup_login">У меня есть учетная запись</string>
+    <string name="signup_failed">Ошибка регистрации</string>
+    <string name="signup_successful">Учетная запись создана</string>
+    <string name="signup_username_exists">Имя уже занято</string>
+    <string name="signup_email_exists">Email уже зарегистрирован</string>
+    <string name="signup_invalid_username">Имя должно содержать не менее 3 символов</string>
+    <string name="signup_invalid_email">Некорректный email</string>
+    <string name="signup_invalid_password">Пароль должен содержать от 6 до 20 символов</string>
+</resources>

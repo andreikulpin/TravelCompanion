@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
+import com.kulpin.project.travelcompanion.R;
 import com.kulpin.project.travelcompanion.fragment.JourneyListFragment;
 import com.kulpin.project.travelcompanion.fragment.TabFragment;
+import com.kulpin.project.travelcompanion.utilities.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +26,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     private void initTabsMap(Context context) {
+        //Log.d("tclog", "initTabsMap");
         tabs = new HashMap<>();
-        tabs.put(0, JourneyListFragment.getInstance(context, "active"));
-        tabs.put(1, JourneyListFragment.getInstance(context, "last"));
+        tabs.put(0, JourneyListFragment.getInstance(context, context.getString(R.string.active), Constants.TAB_ACTIVE));
+        tabs.put(1, JourneyListFragment.getInstance(context, context.getString(R.string.last), Constants.TAB_LAST));
     }
 
     @Override

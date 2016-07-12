@@ -85,7 +85,7 @@ public class SingupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Signup failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), getString(R.string.signup_failed), Toast.LENGTH_SHORT).show();
         signupButton.setEnabled(true);
     }
 
@@ -96,21 +96,21 @@ public class SingupActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         if (username.isEmpty() || username.length() < 4){
-            usernameText.setError("Enter at least 3 characters");
+            usernameText.setError(getString(R.string.signup_invalid_username));
             isValid = false;
         }else {
             emailText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailText.setError("Enter valid email address");
+            emailText.setError(getString(R.string.signup_invalid_email));
             isValid = false;
         } else {
             emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 6 || password.length() > 20) {
-            passwordText.setError("Enter between 6 and 20 alphanumeric characters");
+            passwordText.setError(getString(R.string.signup_invalid_password));
             isValid = false;
         } else {
             passwordText.setError(null);
@@ -142,7 +142,7 @@ public class SingupActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Log.d("tclog", "account created, id = " + user.getId());
-                Toast.makeText(getBaseContext(), "Account created", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), getString(R.string.signup_successful), Toast.LENGTH_SHORT).show();
                 onSignupSuccess();
             }
 
@@ -156,11 +156,11 @@ public class SingupActivity extends AppCompatActivity {
                             errorBody = new String(error.networkResponse.data,"UTF-8");
                             if (Integer.parseInt(errorBody) == Constants.HttpMessageCodes.USERNAME_EXISTS) {
                                 Log.d("tclog", "Username already exists");
-                                Toast.makeText(getBaseContext(), "Username already exists", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), getString(R.string.signup_username_exists), Toast.LENGTH_SHORT).show();
                             }
                             if (Integer.parseInt(errorBody) == Constants.HttpMessageCodes.EMAIL_EXISTS){
                                 Log.d("tclog", "Email exists");
-                                Toast.makeText(getBaseContext(), "Email already exists", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), getString(R.string.signup_email_exists), Toast.LENGTH_SHORT).show();
                             }
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
