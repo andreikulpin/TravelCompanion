@@ -1,4 +1,4 @@
-package com.kulpin.project.travelcompanion.utilities;
+package com.kulpin.project.travelcompanion.controller;
 
 import android.app.Application;
 import android.text.TextUtils;

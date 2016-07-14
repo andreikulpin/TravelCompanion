@@ -14,9 +14,11 @@
     <string name="navigation_logout">Logout</string>
 
     <string name="menu_refresh">Refresh</string>
+    <string name="menu_refresh_photos">Refresh photos</string>
     <string name="menu_add_item">Add item</string>
     <string name="menu_attach_photo">Attach photo</string>
     <string name="menu_delete_all_photos">Delete all photos</string>
+    <string name="menu_clear_local_photos">Clear local gallery</string>
     <string name="menu_delete_all_documents">Delete all documents</string>
 
     <string name="options">Options</string>
@@ -39,7 +41,7 @@
     <string name="create_error_start_later_than_end">Start date must be earlier than end date</string>
     <string name="create_error_end_precedes_start">End date must be later than start date</string>
     <string name="create_error_date_out_of_bounds">Event date must be within journey dates</string>
-    
+
     <string name="content_documents">Documents</string>
     <string name="content_photos">Photos</string>
     <string name="content_attach_document">ATTACH DOCUMENT</string>

@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table photos ("
-                + "id integer primary key autoincrement,"
+                + "id integer primary key,"
                 + "eventId long,"
                 + "title text,"
                 + "filepath text" + ");");
@@ -48,9 +48,10 @@ public class DBHelper extends SQLiteOpenHelper{
     public void insertPhoto(Photo photo){
         db = getWritableDatabase();
         contentValues = new ContentValues();
+        contentValues.put("id", photo.getId());
         contentValues.put("eventId", photo.getEventId());
         contentValues.put("title", photo.getTitle());
-        contentValues.put("filepath", photo.getFilePath());
+        contentValues.put("filepath", photo.getPhotoPath());
         long rowId = db.insert("photos", null, contentValues);
         Log.d("tclog", "DBHelper: photo inserted, id = " + rowId);
         this.close();
@@ -111,7 +112,7 @@ public class DBHelper extends SQLiteOpenHelper{
                     photo.setId(cursor.getLong(idColIndex));
                     photo.setEventId(cursor.getLong(eventIdColIndex));
                     photo.setTitle(cursor.getString(titleColIndex));
-                    photo.setFilePath(cursor.getString(filepathColIndex));
+                    photo.setPhotoPath(cursor.getString(filepathColIndex));
                     photoList.add(photo);
                     //Log.d("tclog", cursor.getString(filepathColIndex) + " title=" + cursor.getString(titleColIndex) + " eventId=" + cursor.getLong(eventIdColIndex));
                 } while (cursor.moveToNext());
@@ -153,7 +154,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public void deleteAllPhotos(long eventId){
         SQLiteDatabase db = getWritableDatabase();
         int deleteCount = db.delete("photos", "eventId = ?", new String[] {((Long) eventId).toString() });
-        Log.d("tclog", "DBHelper"  + deleteCount + " photos deleted");
+        Log.d("tclog", "DBHelper: "  + deleteCount + " photos deleted");
     }
 
     public void deleteAllDocuments(long eventId){
@@ -166,13 +167,32 @@ public class DBHelper extends SQLiteOpenHelper{
     public void deletePhoto(long id){
         SQLiteDatabase db = getWritableDatabase();
         int deleteCount = db.delete("photos", "id = ?", new String[] {((Long) id).toString() });
-        Log.d("tclog", "DBHelper"  + deleteCount + " photo deleted");
+        Log.d("tclog", "DBHelper: "  + deleteCount + " photo deleted");
     }
 
     public void deleteDocument(long id){
         SQLiteDatabase db = getWritableDatabase();
         int deleteCount = db.delete("documents", "id = ?", new String[] {((Long) id).toString() });
-        Log.d("tclog", "DBHelper"  + deleteCount + " document deleted");
+        Log.d("tclog", "DBHelper: "  + deleteCount + " document deleted");
+    }
+
+    public boolean isPhotoExists(final long photoId){
+        db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            String selection = "id = ?";
+            String[] selectionArgs = new String[] {((Long) photoId).toString() };
+            cursor = db.query("photos", null, selection, selectionArgs, null, null, null);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+        if(cursor != null) {
+            if (cursor.moveToFirst())
+                return true;
+            else return false;
+        }
+        return false;
     }
 
 }

@@ -11,7 +11,7 @@ public class Photo implements Parcelable {
     private long eventId;
     private long journeyId;
     private String title;
-    private String filePath;
+    private String photoPath;
 
 
     public Photo() {
@@ -20,14 +20,14 @@ public class Photo implements Parcelable {
     public Photo(long eventId, String title, String filePath) {
         this.eventId = eventId;
         this.title = title;
-        this.filePath = filePath;
+        this.photoPath = filePath;
     }
 
     public Photo(Parcel parcel){
         id = parcel.readLong();
         eventId = parcel.readLong();
         title = parcel.readString();
-        filePath = parcel.readString();
+        photoPath = parcel.readString();
 
     }
 
@@ -47,6 +47,14 @@ public class Photo implements Parcelable {
         this.eventId = eventId;
     }
 
+    public long getJourneyId() {
+        return journeyId;
+    }
+
+    public void setJourneyId(long journeyId) {
+        this.journeyId = journeyId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -55,12 +63,12 @@ public class Photo implements Parcelable {
         this.title = title;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getPhotoPath() {
+        return photoPath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     @Override
@@ -73,7 +81,7 @@ public class Photo implements Parcelable {
         dest.writeLong(id);
         dest.writeLong(eventId);
         dest.writeString(title);
-        dest.writeString(filePath);
+        dest.writeString(photoPath);
     }
 
     public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {

@@ -1,6 +1,5 @@
 package com.kulpin.project.travelcompanion;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kulpin.project.travelcompanion.dto.User;
-import com.kulpin.project.travelcompanion.utilities.AppController;
+import com.kulpin.project.travelcompanion.controller.AppController;
 import com.kulpin.project.travelcompanion.utilities.Constants;
 
 import org.json.JSONException;

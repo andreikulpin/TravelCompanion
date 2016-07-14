@@ -118,6 +118,11 @@ public class MainActivity extends AppCompatActivity{
                         //Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
                         initUser();
                         break;
+                    case R.id.photo_activity:
+                        Intent intent = new Intent(getApplicationContext(), PhotoActivity.class);
+                        startActivity(intent);
+                        break;
+
                 }
                 return true;
             }

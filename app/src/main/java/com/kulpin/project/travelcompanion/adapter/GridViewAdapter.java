@@ -2,7 +2,6 @@ package com.kulpin.project.travelcompanion.adapter;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -54,7 +53,7 @@ public class GridViewAdapter extends BaseAdapter{
             imageView = (ImageView) convertView;
         }
 
-        Bitmap image = GalleryUtilities.decodeBitmapFromResource(photoList.get(position).getFilePath(), imageWidth, imageWidth);
+        Bitmap image = GalleryUtilities.decodeBitmapFromResource(photoList.get(position).getPhotoPath(), imageWidth, imageWidth);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
         imageView.setImageBitmap(image);

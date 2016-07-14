@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.kulpin.project.travelcompanion.adapter.GridViewAdapter;
+import com.kulpin.project.travelcompanion.controller.PhotoController;
 import com.kulpin.project.travelcompanion.dto.Photo;
 import com.kulpin.project.travelcompanion.utilities.Constants;
 import com.kulpin.project.travelcompanion.utilities.DBHelper;
@@ -23,7 +24,7 @@ import com.kulpin.project.travelcompanion.utilities.GalleryUtilities;
 
 import java.util.ArrayList;
 
-public class GalleryActivity extends AppCompatActivity {
+public class GalleryActivity extends BasicActivity {
     private static final int LAYOUT = R.layout.activity_gallery;
     private long eventId;
     private String title;
@@ -62,6 +63,7 @@ public class GalleryActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar_gallery);
         gridView = (GridView) findViewById(R.id.grid_view_gallery);
         galleryUtilities = new GalleryUtilities(this);
+        photoController = new PhotoController(this);
     }
 
     private void initGallery() {
@@ -124,6 +126,16 @@ public class GalleryActivity extends AppCompatActivity {
                     break;
 
                     case R.id.clear_gallery: {
+                        photoController.deleteAllPhotos(eventId);
+                        dbHelper.deleteAllPhotos(eventId);
+                        photoList.clear();
+                        gridViewAdapter.notifyDataSetChanged();
+                        onBackPressed();
+                    }
+                    break;
+
+                    case R.id.clear_local_gallery:
+                    {
                         dbHelper.deleteAllPhotos(eventId);
                         photoList.clear();
                         gridViewAdapter.notifyDataSetChanged();
@@ -144,15 +156,16 @@ public class GalleryActivity extends AppCompatActivity {
             String selectedImagePath;
             Uri selectedImageUri = data.getData();
             selectedImagePath = FilePath.getPath(getApplicationContext(), selectedImageUri);
-            Photo photo = new Photo(eventId, "photo", selectedImagePath);
-            dbHelper.insertPhoto(photo);
+            Photo photo = new Photo(eventId, "new", selectedImagePath);
+            //dbHelper.insertPhoto(photo);
+            photoController.uploadImage(photo);
         }
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Options");
+        menu.setHeaderTitle(getString(R.string.options));
         getMenuInflater().inflate(R.menu.menu_context, menu);
         menu.removeItem(R.id.edit_context);
     }
@@ -162,6 +175,7 @@ public class GalleryActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.delete_context:{
                 int position = gridViewAdapter.getSelectedPosition();
+                photoController.delete(photoList.get(position).getId());
                 dbHelper.deletePhoto(photoList.get(position).getId());
                 photoList.remove(position);
                 gridViewAdapter.notifyDataSetChanged();
@@ -169,5 +183,20 @@ public class GalleryActivity extends AppCompatActivity {
             break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void addPhotoToLocalDB(Photo photo) {
+        dbHelper.insertPhoto(photo);
+    }
+
+    @Override
+    public void updatePhotos() {
+        initGallery();
+    }
+
+    @Override
+    public boolean isPhotoExistsLocally(long photoId) {
+        return dbHelper.isPhotoExists(photoId);
     }
 }

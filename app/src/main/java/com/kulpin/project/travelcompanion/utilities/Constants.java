@@ -12,7 +12,7 @@ public class Constants {
 
     /*Controller URLs*/
     public static class URL {
-        private static final String HOST = "http://tcs-kulpin.rhcloud.com/";
+        private static final String HOST = "https://tcs-kulpin.rhcloud.com/";
 
         public static final String CREATE_ACCOUNT = HOST + "users/newUser";
         public static final String GET_USER_BY_USERNAME = HOST + "users/userByUsername/";
@@ -31,7 +31,23 @@ public class Constants {
         public static final String GET_JOURNEY = HOST + "journeys/journeyById/";
         public static final String ADD_JOURNEY = HOST + "journeys/newJourney";
         public static final String DELETE_JOURNEY = HOST + "journeys/delete/";
+
+        public static final String ADD_PHOTO = HOST + "photos/addphoto";
+        public static final String GET_PHOTO = HOST + "photos/photoById/";
+        public static final String GET_ALL_PHOTOS = HOST + "photos/all/";
+        public static final String DELETE_PHOTO = HOST + "photos/delete/";
+        public static final String DELETE_ALL_PHOTOS = HOST + "photos/deleteAll/";
     }
+
+    public static class localURL{
+        private static final String HOST = "http://10.9.13.116:8080/";
+        public static final String ADD_PHOTO = HOST + "photos/addphoto";
+        public static final String GET_PHOTO = HOST + "photos/photoById/";
+        public static final String GET_ALL_PHOTOS = HOST + "photos/all/";
+        public static final String DELETE_PHOTO = HOST + "photos/delete/";
+        public static final String DELETE_ALL_PHOTOS = HOST + "photos/deleteAll/";
+    }
+
 
     public static class HttpStatus{
         public static final int FORBIDDEN = 403;

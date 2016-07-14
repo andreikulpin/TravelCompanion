@@ -13,9 +13,11 @@
     <string name="navigation_logout">Выйти</string>
 
     <string name="menu_refresh">Обновить</string>
+    <string name="menu_refresh_photos">Обновить фотографии</string>
     <string name="menu_add_item">Добавить</string>
     <string name="menu_attach_photo">Прикрепить фото</string>
     <string name="menu_delete_all_photos">Удалить все фото</string>
+    <string name="menu_clear_local_photos">Удалить локальные фотографии</string>
     <string name="menu_delete_all_documents">Удалить все документы</string>
 
     <string name="options">Опции</string>

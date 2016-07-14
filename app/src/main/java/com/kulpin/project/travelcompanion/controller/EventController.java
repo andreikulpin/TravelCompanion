@@ -1,4 +1,4 @@
-package com.kulpin.project.travelcompanion.utilities;
+package com.kulpin.project.travelcompanion.controller;
 
 
 import android.app.Activity;
@@ -8,12 +8,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kulpin.project.travelcompanion.EventContentActivity;
+import com.kulpin.project.travelcompanion.controller.AppController;
 import com.kulpin.project.travelcompanion.dto.EventDTO;
+import com.kulpin.project.travelcompanion.utilities.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EventController {

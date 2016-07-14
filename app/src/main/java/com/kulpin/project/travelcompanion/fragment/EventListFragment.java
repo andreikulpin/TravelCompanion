@@ -17,7 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kulpin.project.travelcompanion.dto.JourneyDTO;
-import com.kulpin.project.travelcompanion.utilities.AppController;
+import com.kulpin.project.travelcompanion.controller.AppController;
 import com.kulpin.project.travelcompanion.utilities.Constants;
 import com.kulpin.project.travelcompanion.R;
 import com.kulpin.project.travelcompanion.adapter.EventListAdapter;

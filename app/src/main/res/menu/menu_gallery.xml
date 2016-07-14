@@ -11,5 +11,9 @@
         android:icon="@mipmap/ic_plus_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="never" />
+    <item android:id="@+id/clear_local_gallery"
+        android:title="@string/menu_clear_local_photos"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom"/>
 
 </menu>

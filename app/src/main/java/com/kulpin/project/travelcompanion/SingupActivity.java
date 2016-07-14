@@ -15,7 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kulpin.project.travelcompanion.dto.User;
-import com.kulpin.project.travelcompanion.utilities.AppController;
+import com.kulpin.project.travelcompanion.controller.AppController;
 import com.kulpin.project.travelcompanion.utilities.Constants;
 
 import org.json.JSONException;

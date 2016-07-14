@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
@@ -95,8 +96,11 @@ public class GalleryUtilities {
     }
 
     public static Bitmap decodeBitmapFromResource(String filePath, int requiredHeight, int requiredWidth){
-        File file = new File(filePath);
+        //File file = new File(filePath);
 
+        if (filePath == null) {
+            Log.d("tclog", "filePath is null");
+        }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, options);

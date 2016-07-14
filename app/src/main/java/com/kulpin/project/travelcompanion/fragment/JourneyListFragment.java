@@ -17,7 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.kulpin.project.travelcompanion.utilities.AppController;
+import com.kulpin.project.travelcompanion.controller.AppController;
 import com.kulpin.project.travelcompanion.utilities.Constants;
 import com.kulpin.project.travelcompanion.R;
 import com.kulpin.project.travelcompanion.adapter.JourneyListAdapter;
@@ -31,7 +31,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Andrei on 10.04.2016.
@@ -145,14 +144,14 @@ public class JourneyListFragment extends TabFragment {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("myLOG", "new journey created = " + response);
+                Log.d("tclog", "new journey created = " + response);
                 ((PagesContainerFragment) getParentFragment()).onRefresh();
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("myLOG", "error creating new journey = " + error
+                Log.d("tclog", "error creating new journey = " + error
                         /*+ ">>" + error.networkResponse.statusCode
                         + ">>" + error.networkResponse.data*/
                         + ">>" + error.getCause()
@@ -170,7 +169,7 @@ public class JourneyListFragment extends TabFragment {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("myLOG", "journey deleted: " + response);
+                Log.d("tclog", "journey deleted: " + response);
                 syncJourneyList();
             }
 
