@@ -34,11 +34,17 @@ public class EventController {
                 try {
                     //Log.d("tclog", "onResponse");
                     event.setId(response.getLong("id"));
+                    event.setType(response.getInt("type"));
                     event.setTitle(response.getString("title"));
                     event.setPlace(response.getString("place"));
-                    event.setDistance(response.getInt("distance"));
-                    event.setEventDate(new Date(response.getLong("eventDate")));
+                    event.setDeparturePlace(response.getString("departurePlace"));
+                    event.setDestinationPlace(response.getString("destinationPlace"));
+                    event.setStartDate(new Date(response.getLong("startDate")));
+                    event.setStartTime(new Date(response.getLong("startTime")));
+                    event.setEndDate(new Date(response.getLong("endDate")));
+                    event.setEndTime(new Date(response.getLong("endTime")));
                 } catch (JSONException e){}
+
                 ((EventContentActivity) activity).setEvent(event);
             }
         }, new Response.ErrorListener() {

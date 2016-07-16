@@ -5,33 +5,37 @@ import android.os.Parcelable;
 
 import java.util.Date;
 
-/**
- * Created by Andrei on 07.04.2016.
- */
 public class EventDTO implements Parcelable{
 
     private long id;
+    private long journeyId;
+    private int type;
     private String title;
     private String place;
-    private Date eventDate;
-    private float distance;
+    private String departurePlace;
+    private String destinationPlace;
+    //private Date eventDate;
+    private Date startDate;
+    private Date startTime;
+    private Date endDate;
+    private Date endTime;
 
 
     public EventDTO(){}
 
-    public EventDTO(String title, String place, Date eventDate, float distance) {
-        this.title = title;
-        this.place = place;
-        this.eventDate = eventDate;
-        this.distance = distance;
-    }
+
 
     private EventDTO (Parcel parcel){
         id = parcel.readLong();
+        type = parcel.readInt();
         title = parcel.readString();
         place = parcel.readString();
-        eventDate = new Date(parcel.readLong());
-        distance = parcel.readFloat();
+        departurePlace = parcel.readString();
+        destinationPlace = parcel.readString();
+        startDate = new Date(parcel.readLong());
+        startTime = new Date(parcel.readLong());
+        endDate = new Date(parcel.readLong());
+        endTime = new Date(parcel.readLong());
     }
 
     public long getId() {
@@ -42,12 +46,20 @@ public class EventDTO implements Parcelable{
         this.id = id;
     }
 
-    public Date getEventDate() {
-        return eventDate;
+    public long getJourneyId() {
+        return journeyId;
     }
 
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
+    public void setJourneyId(long journeyId) {
+        this.journeyId = journeyId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getTitle() {
@@ -66,12 +78,52 @@ public class EventDTO implements Parcelable{
         this.place = place;
     }
 
-    public float getDistance() {
-        return distance;
+    public String getDeparturePlace() {
+        return departurePlace;
     }
 
-    public void setDistance(float distance) {
-        this.distance = distance;
+    public void setDeparturePlace(String departurePlace) {
+        this.departurePlace = departurePlace;
+    }
+
+    public String getDestinationPlace() {
+        return destinationPlace;
+    }
+
+    public void setDestinationPlace(String destinationPlace) {
+        this.destinationPlace = destinationPlace;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     @Override
@@ -82,10 +134,15 @@ public class EventDTO implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
+        dest.writeInt(type);
         dest.writeString(title);
         dest.writeString(place);
-        dest.writeLong(eventDate.getTime());
-        dest.writeFloat(distance);
+        dest.writeString(departurePlace);
+        dest.writeString(destinationPlace);
+        dest.writeLong(startDate.getTime());
+        dest.writeLong(startTime.getTime());
+        dest.writeLong(endDate.getTime());
+        dest.writeLong(endTime.getTime());
     }
 
     public static final Parcelable.Creator<EventDTO> CREATOR = new Parcelable.Creator<EventDTO>(){

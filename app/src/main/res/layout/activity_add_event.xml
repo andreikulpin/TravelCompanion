@@ -26,6 +26,8 @@
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
+
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -37,31 +39,29 @@
                 android:orientation="vertical">
 
 
-                <EditText
-                    android:id="@+id/addTitle"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/create_hint_title"/>
+                    android:layout_margin="8dp"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:text="@string/create_choose_event_type"/>
 
-                <EditText
-                    android:id="@+id/addPlace"
+                <ListView
+                    android:id="@+id/list_type_event"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/create_hint_place"/>
+                    android:layout_height="match_parent">
 
-                <Button
-                    android:id="@+id/addDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/create_choose_date"/>
-
-                <EditText
-                    android:id="@+id/addDistance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0.0"/>
+                </ListView>
 
             </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/fragment_container_add"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
         </FrameLayout>
     </android.support.design.widget.CoordinatorLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -80,10 +80,15 @@ public class EventListFragment extends TabFragment{
                         JSONObject object = response.getJSONObject(i);
                         EventDTO item = new EventDTO();
                         item.setId(object.getLong("id"));
+                        item.setType(object.getInt("type"));
                         item.setTitle(object.getString("title"));
                         item.setPlace(object.getString("place"));
-                        item.setDistance(object.getInt("distance"));
-                        item.setEventDate(new Date(object.getLong("eventDate")));
+                        item.setDeparturePlace(object.getString("departurePlace"));
+                        item.setDestinationPlace(object.getString("destinationPlace"));
+                        item.setStartDate(new Date(object.getLong("startDate")));
+                        item.setStartTime(new Date(object.getLong("startTime")));
+                        item.setEndDate(new Date(object.getLong("endDate")));
+                        item.setEndTime(new Date(object.getLong("endTime")));
                         list.add(item);
                     }catch(JSONException e){
                         e.printStackTrace();
@@ -95,7 +100,7 @@ public class EventListFragment extends TabFragment{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("myLOG", "error syncronization event list = " + error);
+                Log.d("tclog", "error syncronization event list = " + error);
             }
         });
         AppController.getInstance().addToRequestQueue(jsonArrayRequest);
@@ -105,14 +110,23 @@ public class EventListFragment extends TabFragment{
         String URL = Constants.URL.ADD_EVENT;
         JSONObject object = new JSONObject();
 
+        //Log.d("tclog", ""  + (newEvent.getStartTime() == null));
+
+        //if (newEvent.getStartTime() == null) return;
+
         try {
             if (newEvent.getId() != 0) object.accumulate("id", newEvent.getId());
             object.accumulate("journeyId", getArguments().getLong("journeyId"));
-            object.accumulate("userId", 0);
+            object.accumulate("userId", 0); //proper value is set on server
+            object.accumulate("type", newEvent.getType());
             object.accumulate("title", newEvent.getTitle());
             object.accumulate("place", newEvent.getPlace());
-            object.accumulate("eventDate", newEvent.getEventDate().getTime());
-            object.accumulate("distance", newEvent.getDistance());
+            object.accumulate("departurePlace", newEvent.getDeparturePlace());
+            object.accumulate("destinationPlace", newEvent.getDestinationPlace());
+            object.accumulate("startDate", newEvent.getStartDate().getTime());
+            object.accumulate("startTime", newEvent.getStartTime().getTime());
+            object.accumulate("endDate", newEvent.getEndDate().getTime());
+            object.accumulate("endTime", newEvent.getEndTime().getTime());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -120,18 +134,18 @@ public class EventListFragment extends TabFragment{
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("myLOG", "new event created = " + response);
+                Log.d("tclog", "new event created = " + response);
                 syncEventList();
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("myLOG", "error creating new event = " + error
-                        /*+ ">>" + error.networkResponse.statusCode
-                        + ">>" + error.networkResponse.data*/
+                Log.d("tclog", "error creating new event = " + error
+                        + ">>" + error.networkResponse.statusCode
+                        /*+ ">>" + error.networkResponse.data
                         + ">>" + error.getCause()
-                        + ">>" + error.getMessage());
+                        + ">>" + error.getMessage()*/);
             }
 
         });
@@ -144,14 +158,14 @@ public class EventListFragment extends TabFragment{
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("myLOG", "event deleted: " + response);
+                Log.d("tclog", "event deleted: " + response);
                 syncEventList();
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("myLOG", "error deleting event = " + error);
+                Log.d("tclog", "error deleting event = " + error);
                 syncEventList();
             }
 
@@ -176,11 +190,11 @@ public class EventListFragment extends TabFragment{
         return getArguments().getParcelable(JourneyDTO.class.getCanonicalName());
     }
 
-    private List<EventDTO> createMockEventListData() {
+    /*private List<EventDTO> createMockEventListData() {
         List<EventDTO> list = new ArrayList<>();
         for (int i =1; i <= 10; i ++) {
             list.add(new EventDTO("Event Title " + i, "Place " + i, new Date(), i * 10));
         }
         return list;
-    }
+    }*/
 }

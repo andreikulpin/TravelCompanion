@@ -43,13 +43,13 @@
                     android:hint="@string/create_hint_title"/>
 
                 <Button
-                    android:id="@+id/addStartDate"
+                    android:id="@+id/edit_start_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/create_choose_start_date"/>
 
                 <Button
-                    android:id="@+id/addEndDate"
+                    android:id="@+id/edit_end_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/create_choose_end_date"/>

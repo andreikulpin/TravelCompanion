@@ -42,8 +42,8 @@ public class AddJourneyActivity extends AppCompatActivity{
 
     private void bindActivity(){
         addTitle = (EditText) findViewById(R.id.addJourneyTitle);
-        addStartDate = (Button) findViewById(R.id.addStartDate);
-        addEndDate = (Button) findViewById(R.id.addEndDate);
+        addStartDate = (Button) findViewById(R.id.edit_start_date);
+        addEndDate = (Button) findViewById(R.id.edit_end_date);
         addStartDate.setOnClickListener(OnClickListener());
         addEndDate.setOnClickListener(OnClickListener());
         startDate = new GregorianCalendar();
@@ -111,7 +111,7 @@ public class AddJourneyActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.addStartDate : {
+                    case R.id.edit_start_date: {
                         DialogFragment dateFragment = new DatePickerFragment(){
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -130,7 +130,7 @@ public class AddJourneyActivity extends AppCompatActivity{
                     }
                     break;
 
-                    case R.id.addEndDate : {
+                    case R.id.edit_end_date: {
                         DialogFragment dateFragment = new DatePickerFragment(){
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {

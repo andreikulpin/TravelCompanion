@@ -27,17 +27,30 @@
 
     <string name="create_journey">Create journey</string>
     <string name="create_event">Create event</string>
+    <string name="create_choose_event_type">Choose event type</string>
     <string name="create_hint_title">Title</string>
     <string name="create_choose_date">Choose date</string>
     <string name="create_hint_place">Place</string>
+    <string name="create_hint_departure_place">Departure place</string>
+    <string name="create_hint_destination_place">Destination place</string>
     <string name="create_choose_start_date">Choose start date</string>
     <string name="create_choose_end_date">Choose end date</string>
+    <string name="create_choose_departure_date">Choose departure date</string>
+    <string name="create_choose_arrival_date">Choose arrival date</string>
+    <string name="create_choose_start_time">Choose start time</string>
+    <string name="create_choose_end_time">Choose end time</string>
+    <string name="create_choose_departure_time">Choose departure time</string>
+    <string name="create_choose_arrival_time">Choose arrival time</string>
     <string name="create_done">Done</string>
     <string name="create_error_enter_title">Please, enter a title</string>
     <string name="create_error_enter_place">Please, enter a place</string>
+    <string name="create_error_enter_departure_place">Please, enter departure place</string>
+    <string name="create_error_enter_destination_place">Please, enter destination place</string>
     <string name="create_error_enter_date">Please, choose event date</string>
     <string name="create_error_enter_start_date">Please, choose start date</string>
     <string name="create_error_enter_end_date">Please, choose end date</string>
+    <string name="create_error_enter_start_time">Please, choose start time</string>
+    <string name="create_error_enter_end_time">Please, choose end time</string>
     <string name="create_error_start_later_than_end">Start date must be earlier than end date</string>
     <string name="create_error_end_precedes_start">End date must be later than start date</string>
     <string name="create_error_date_out_of_bounds">Event date must be within journey dates</string>
@@ -70,5 +83,11 @@
     <string name="signup_invalid_username">Enter at least 3 characters</string>
     <string name="signup_invalid_email">Enter valid email address</string>
     <string name="signup_invalid_password">Enter between 6 and 20 alphanumeric characters</string>
+
+    <string name="event_type_plane">Plane</string>
+    <string name="event_type_train">Train</string>
+    <string name="event_type_bus">Bus</string>
+    <string name="event_type_museum">Museum</string>
+    <string name="event_type_cinema">Cinema</string>
 
 </resources>

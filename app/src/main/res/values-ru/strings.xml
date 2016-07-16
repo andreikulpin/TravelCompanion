@@ -26,17 +26,30 @@
 
     <string name="create_journey">Создание путешествия</string>
     <string name="create_event">Создание события</string>
+    <string name="create_choose_event_type">Выберите тип события</string>
     <string name="create_hint_title">Название</string>
     <string name="create_choose_date">Выберите дату</string>
     <string name="create_hint_place">Место</string>
+    <string name="create_hint_departure_place">Пункт отправления</string>
+    <string name="create_hint_destination_place">Пункт назначения</string>
     <string name="create_choose_start_date">Выберите дату начала</string>
     <string name="create_choose_end_date">Выберите конечную дату</string>
+    <string name="create_choose_departure_date">Дата отправления</string>
+    <string name="create_choose_arrival_date">Дата прибытия</string>
+    <string name="create_choose_start_time">Время начала</string>
+    <string name="create_choose_end_time">Время конца</string>
+    <string name="create_choose_departure_time">Время отправления</string>
+    <string name="create_choose_arrival_time">Время прибытия</string>
     <string name="create_done">Применить</string>
     <string name="create_error_enter_title">Введите название</string>
     <string name="create_error_enter_place">Введите место</string>
+    <string name="create_error_enter_departure_place">Введите место отправления</string>
+    <string name="create_error_enter_destination_place">Введите место назначения</string>
     <string name="create_error_enter_date">Выберите дату</string>
     <string name="create_error_enter_start_date">Выберите дату начала</string>
     <string name="create_error_enter_end_date">Выберите конечную дату</string>
+    <string name="create_error_enter_start_time">Выберите время отправления</string>
+    <string name="create_error_enter_end_time">Выберите время прибытия</string>
     <string name="create_error_start_later_than_end">Дата начала должна предшествовать конечной</string>
     <string name="create_error_end_precedes_start">Конечная дата должна быть позднее начальной</string>
     <string name="create_error_date_out_of_bounds">Дата события не входит в даты путешествия</string>
@@ -69,4 +82,10 @@
     <string name="signup_invalid_username">Имя должно содержать не менее 3 символов</string>
     <string name="signup_invalid_email">Некорректный email</string>
     <string name="signup_invalid_password">Пароль должен содержать от 6 до 20 символов</string>
+
+    <string name="event_type_plane">Самолет</string>
+    <string name="event_type_train">Поезд</string>
+    <string name="event_type_bus">Автобус</string>
+    <string name="event_type_museum">Музей</string>
+    <string name="event_type_cinema">Кино</string>
 </resources>

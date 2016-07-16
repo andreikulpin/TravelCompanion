@@ -79,8 +79,18 @@ public class Constants {
     }
 
     public static class Actions{
+        public static final String CREATE_JOURNEY_ACTION = "com.kulpin.project.create_journey";
+        public static final String CREATE_EVENT_ACTION = "com.kulpin.project.create_event";
         public static final String EDIT_JOURNEY_ACTION = "com.kulpin.project.edit_journey";
         public static final String EDIT_EVENT_ACTION = "com.kulpin.project.edit_event";
+    }
+
+    public static class EventType{
+        public static final int TYPE_PLANE = 1;
+        public static final int TYPE_TRAIN = 2;
+        public static final int TYPE_BUS = 3;
+        public static final int TYPE_MUSEUM = 4;
+        public static final int TYPE_CINEMA = 5;
     }
 
     /*Tabs*/

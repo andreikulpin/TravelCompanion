@@ -28,6 +28,7 @@
             />
 
         <RelativeLayout
+            android:id="@+id/list_content_container"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -36,7 +37,7 @@
             android:paddingBottom="8dp"
             >
 
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textTitle"
@@ -54,7 +55,7 @@
                 android:id="@+id/textPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textTitle"/>
+                android:layout_below="@+id/textTitle"/>-->
 
         </RelativeLayout>
 

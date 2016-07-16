@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <EditText
+        android:id="@+id/edit_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/create_hint_title"/>
+
+    <EditText
+        android:id="@+id/edit_departure_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/create_hint_departure_place"/>
+
+    <EditText
+        android:id="@+id/edit_destination_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/create_hint_destination_place"/>
+
+    <Button
+        android:id="@+id/edit_start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_choose_departure_date"/>
+
+    <Button
+        android:id="@+id/edit_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_choose_departure_time"/>
+
+
+    <Button
+        android:id="@+id/edit_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_choose_arrival_date"/>
+
+    <Button
+        android:id="@+id/edit_end_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_choose_arrival_time"/>
+
+</LinearLayout>

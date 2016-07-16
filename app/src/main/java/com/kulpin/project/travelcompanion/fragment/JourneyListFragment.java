@@ -78,7 +78,7 @@ public class JourneyListFragment extends TabFragment {
     }
 
     public void syncJourneyList(){
-        Log.d("tclog", "syncJourneyList");
+        //Log.d("tclog", "syncJourneyList");
         if (getActivity() == null) {
             //Log.d("tclog", "getActivity is null");
             return;
