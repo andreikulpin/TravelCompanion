@@ -23,20 +23,25 @@ public class Constants {
         public static final String GET_ALL_EVENTS = HOST + "events/all/";
         public static final String GET_EVENT = HOST + "events/eventById/";
         public static final String ADD_EVENT = HOST + "events/newEvent";
-        public static final String DELETE_EVENT = HOST + "events/delete/";
+        public static final String DELETE_EVENT = HOST + "events/deleteLink/";
 
         public static final String GET_ALL_JOURNEYS = HOST + "journeys/all/";
         public static final String GET_ACTIVE_JOURNEYS = HOST + "journeys/active/";
         public static final String GET_LAST_JOURNEYS = HOST + "journeys/last/";
         public static final String GET_JOURNEY = HOST + "journeys/journeyById/";
         public static final String ADD_JOURNEY = HOST + "journeys/newJourney";
-        public static final String DELETE_JOURNEY = HOST + "journeys/delete/";
+        public static final String DELETE_JOURNEY = HOST + "journeys/deleteLink/";
 
         public static final String ADD_PHOTO = HOST + "photos/addphoto";
         public static final String GET_PHOTO = HOST + "photos/photoById/";
         public static final String GET_ALL_PHOTOS = HOST + "photos/all/";
-        public static final String DELETE_PHOTO = HOST + "photos/delete/";
+        public static final String DELETE_PHOTO = HOST + "photos/deleteLink/";
         public static final String DELETE_ALL_PHOTOS = HOST + "photos/deleteAll/";
+
+        public static final String ADD_LINK = HOST + "links/newLink";
+        public static final String GET_LINK = HOST + "links/linkById/";
+        public static final String GET_ALL_LINKS = HOST + "links/all/";
+        public static final String DELETE_LINK = HOST + "links/delete/";
     }
 
     public static class localURL{
@@ -44,7 +49,7 @@ public class Constants {
         public static final String ADD_PHOTO = HOST + "photos/addphoto";
         public static final String GET_PHOTO = HOST + "photos/photoById/";
         public static final String GET_ALL_PHOTOS = HOST + "photos/all/";
-        public static final String DELETE_PHOTO = HOST + "photos/delete/";
+        public static final String DELETE_PHOTO = HOST + "photos/deleteLink/";
         public static final String DELETE_ALL_PHOTOS = HOST + "photos/deleteAll/";
     }
 
@@ -107,4 +112,7 @@ public class Constants {
     public static final String DBNAME = "tcDB";
     public static final int DBVERSION = 1;
     public static final String PHOTOSTABLE = "photos";
+
+    public static final int LONG_CLICK_DOCUMENT = 1;
+    public static final int LONG_CLICK_LINK = 2;
 }

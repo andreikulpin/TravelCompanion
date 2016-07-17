@@ -16,6 +16,7 @@
     <string name="menu_refresh_photos">Обновить фотографии</string>
     <string name="menu_add_item">Добавить</string>
     <string name="menu_attach_photo">Прикрепить фото</string>
+    <string name="menu_attach_link">Прикрепить ссылку</string>
     <string name="menu_delete_all_photos">Удалить все фото</string>
     <string name="menu_clear_local_photos">Удалить локальные фотографии</string>
     <string name="menu_delete_all_documents">Удалить все документы</string>
@@ -55,8 +56,10 @@
     <string name="create_error_date_out_of_bounds">Дата события не входит в даты путешествия</string>
 
     <string name="content_documents">Документы</string>
+    <string name="content_links">Ссылки</string>
     <string name="content_photos">Фотографии</string>
     <string name="content_attach_document">ПРИКРЕПИТЬ ДОКУМЕНТ</string>
+    <string name="content_attach_link">ПРИКРЕПИТЬ ССЫЛКУ</string>
     <string name="content_attach_photo">ПРИКРЕПИТЬ ФОТОГРАФИЮ</string>
     <string name="content_all_photos">ВСЕ ФОТОГРАФИИ</string>
     <string name="gallery_photos"></string>
@@ -88,4 +91,11 @@
     <string name="event_type_bus">Автобус</string>
     <string name="event_type_museum">Музей</string>
     <string name="event_type_cinema">Кино</string>
+
+    <string name="dialog_link_title">Новая ссылка</string>
+    <string name="dialog_hint_title">Название</string>
+    <string name="dialog_hint_address">Адрес</string>
+    <string name="dialog_cancel">Отмена</string>
+    <string name="dialog_apply">Применить</string>
+    <string name="dialog_invalid_address">Некорректный адрес</string>
 </resources>

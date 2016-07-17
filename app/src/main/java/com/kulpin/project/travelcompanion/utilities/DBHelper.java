@@ -116,7 +116,9 @@ public class DBHelper extends SQLiteOpenHelper{
                     photoList.add(photo);
                     //Log.d("tclog", cursor.getString(filepathColIndex) + " title=" + cursor.getString(titleColIndex) + " eventId=" + cursor.getLong(eventIdColIndex));
                 } while (cursor.moveToNext());
-            } else Log.d("tclog", "DBHelper: No photos attached to event");
+            } else {
+                //Log.d("tclog", "DBHelper: No photos attached to event");
+            }
         return photoList;
     }
 

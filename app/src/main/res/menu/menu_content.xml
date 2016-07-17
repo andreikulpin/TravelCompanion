@@ -16,6 +16,11 @@
         android:icon="@mipmap/ic_plus_white_24dp"
         android:orderInCategory="1"
         app:showAsAction="never" />
+    <item android:id="@+id/menu_attach_link"
+        android:title="@string/menu_attach_link"
+        android:orderInCategory="1"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/clear_gallery"
         android:title="@string/menu_delete_all_photos"
         android:icon="@mipmap/ic_plus_white_24dp"

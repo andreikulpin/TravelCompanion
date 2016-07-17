@@ -1,5 +1,6 @@
 package com.kulpin.project.travelcompanion;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.GridView;
 
 import com.kulpin.project.travelcompanion.adapter.GridViewAdapter;
 import com.kulpin.project.travelcompanion.controller.PhotoController;
+import com.kulpin.project.travelcompanion.dto.Link;
 import com.kulpin.project.travelcompanion.dto.Photo;
 import com.kulpin.project.travelcompanion.utilities.Constants;
 import com.kulpin.project.travelcompanion.utilities.DBHelper;
@@ -198,5 +200,20 @@ public class GalleryActivity extends BasicActivity {
     @Override
     public boolean isPhotoExistsLocally(long photoId) {
         return dbHelper.isPhotoExists(photoId);
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, Link link) {
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void addLink(Link link) {
+
     }
 }

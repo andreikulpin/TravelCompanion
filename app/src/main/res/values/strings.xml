@@ -17,6 +17,7 @@
     <string name="menu_refresh_photos">Refresh photos</string>
     <string name="menu_add_item">Add item</string>
     <string name="menu_attach_photo">Attach photo</string>
+    <string name="menu_attach_link">Attach link</string>
     <string name="menu_delete_all_photos">Delete all photos</string>
     <string name="menu_clear_local_photos">Clear local gallery</string>
     <string name="menu_delete_all_documents">Delete all documents</string>
@@ -56,8 +57,10 @@
     <string name="create_error_date_out_of_bounds">Event date must be within journey dates</string>
 
     <string name="content_documents">Documents</string>
+    <string name="content_links">Links</string>
     <string name="content_photos">Photos</string>
     <string name="content_attach_document">ATTACH DOCUMENT</string>
+    <string name="content_attach_link">ATTACH LINK</string>
     <string name="content_attach_photo">ATTACH PHOTO</string>
     <string name="content_all_photos">ALL PHOTOS</string>
     <string name="gallery_photos">photos</string>
@@ -89,5 +92,12 @@
     <string name="event_type_bus">Bus</string>
     <string name="event_type_museum">Museum</string>
     <string name="event_type_cinema">Cinema</string>
+
+    <string name="dialog_link_title">New link</string>
+    <string name="dialog_hint_title">Title</string>
+    <string name="dialog_hint_address">Address</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_apply">Apply</string>
+    <string name="dialog_invalid_address">Enter valid address</string>
 
 </resources>

@@ -80,7 +80,7 @@ public class PhotoController {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("tclog", "error creating new image = " + error
+                Log.d("tclog", "error downloading images = " + error
                         + ">>" + error.networkResponse.statusCode
                         //+ ">>" + error.networkResponse.data
                         //+ ">>" + error.getCause()

@@ -1,32 +1,24 @@
 package com.kulpin.project.travelcompanion.dto;
 
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
+public class Link implements Parcelable{
 
-public class Photo implements Parcelable {
     private long id;
     private long eventId;
-    private long journeyId;
     private String title;
-    private String photoPath;
+    private String address;
 
-
-    public Photo() {
+    public Link() {
     }
 
-    public Photo(long eventId, String title, String filePath) {
-        this.eventId = eventId;
-        this.title = title;
-        this.photoPath = filePath;
-    }
-
-    public Photo(Parcel parcel){
+    public Link(Parcel parcel){
         id = parcel.readLong();
         eventId = parcel.readLong();
         title = parcel.readString();
-        photoPath = parcel.readString();
-
+        address = parcel.readString();
     }
 
     public long getId() {
@@ -45,14 +37,6 @@ public class Photo implements Parcelable {
         this.eventId = eventId;
     }
 
-    public long getJourneyId() {
-        return journeyId;
-    }
-
-    public void setJourneyId(long journeyId) {
-        this.journeyId = journeyId;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -61,12 +45,12 @@ public class Photo implements Parcelable {
         this.title = title;
     }
 
-    public String getPhotoPath() {
-        return photoPath;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override
@@ -79,19 +63,18 @@ public class Photo implements Parcelable {
         dest.writeLong(id);
         dest.writeLong(eventId);
         dest.writeString(title);
-        dest.writeString(photoPath);
+        dest.writeString(address);
     }
 
-    public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
-
+    public static final Parcelable.Creator<Link> CREATOR = new Creator<Link>() {
         @Override
-        public Photo createFromParcel(Parcel source) {
-            return  new Photo(source);
+        public Link createFromParcel(Parcel source) {
+            return new Link(source);
         }
 
         @Override
-        public Photo[] newArray(int size) {
-            return new Photo[size];
+        public Link[] newArray(int size) {
+            return new Link[size];
         }
     };
 }
