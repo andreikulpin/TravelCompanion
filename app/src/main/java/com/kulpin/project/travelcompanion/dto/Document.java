@@ -7,6 +7,7 @@ import android.os.Parcelable;
 public class Document implements Parcelable{
 
     private long id;
+    private long idServer;
     private long eventId;
     private long journeyId;
     private String title;
@@ -23,6 +24,7 @@ public class Document implements Parcelable{
 
     public Document(Parcel parcel){
         this.id = parcel.readLong();
+        this.idServer = parcel.readLong();
         this.eventId = parcel.readLong();
         this.title = parcel.readString();
         this.filePath = parcel.readString();
@@ -34,6 +36,14 @@ public class Document implements Parcelable{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getIdServer() {
+        return idServer;
+    }
+
+    public void setIdServer(long idServer) {
+        this.idServer = idServer;
     }
 
     public long getEventId() {
@@ -68,6 +78,7 @@ public class Document implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
+        dest.writeLong(idServer);
         dest.writeLong(eventId);
         dest.writeString(title);
         dest.writeString(filePath);

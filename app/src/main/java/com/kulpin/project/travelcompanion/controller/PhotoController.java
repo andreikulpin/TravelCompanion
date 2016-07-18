@@ -52,10 +52,10 @@ public class PhotoController {
                         byte[] byteImage = Base64.decode(temp, Base64.DEFAULT);
                         bitmap = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
 
-                        if (activity.isPhotoExistsLocally(photo.getId())) continue;
+                        if (activity.doesPhotoExistsLocally(photo.getId())) continue;
 
                         String root = Environment.getExternalStorageDirectory().toString();
-                        File dir = new File(root + "/saved");
+                        File dir = new File(root + "/TravelCompanion/saved_photos");
                         dir.mkdirs();
                         File file = new File(dir, photo.getId() + ".png");
                         if (file.exists()) {
@@ -173,6 +173,5 @@ public class PhotoController {
 
         });
         AppController.getInstance().addToRequestQueue(request);
-
     }
 }

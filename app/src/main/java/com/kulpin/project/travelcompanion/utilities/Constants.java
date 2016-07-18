@@ -38,6 +38,12 @@ public class Constants {
         public static final String DELETE_PHOTO = HOST + "photos/deleteLink/";
         public static final String DELETE_ALL_PHOTOS = HOST + "photos/deleteAll/";
 
+        public static final String ADD_DOCUMENT = HOST + "documents/adddocument";
+        public static final String GET_DOCUMENT = HOST + "documents/documentById/";
+        public static final String GET_ALL_DOCUMENTS = HOST + "documents/all/";
+        public static final String DELETE_DOCUMENT = HOST + "documents/delete/";
+        public static final String DELETE_ALL_DOCUMENTS = HOST + "documents/deleteAll/";
+
         public static final String ADD_LINK = HOST + "links/newLink";
         public static final String GET_LINK = HOST + "links/linkById/";
         public static final String GET_ALL_LINKS = HOST + "links/all/";

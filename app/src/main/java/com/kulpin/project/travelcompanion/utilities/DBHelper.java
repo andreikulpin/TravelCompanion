@@ -33,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
         db.execSQL("create table documents ("
                 + "id integer primary key autoincrement,"
+                + "idServer long,"
                 + "eventId long,"
                 + "title text,"
                 + "filepath text" + ");");
@@ -60,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public void insertDocument(Document document){
         db = getWritableDatabase();
         contentValues = new ContentValues();
+        contentValues.put("idServer", document.getIdServer());
         contentValues.put("eventId", document.getEventId());
         contentValues.put("title", document.getTitle());
         contentValues.put("filepath", document.getFilePath());
@@ -137,12 +139,14 @@ public class DBHelper extends SQLiteOpenHelper{
 
         if (cursor != null)
             if (cursor.moveToFirst()){
+                int idServerColIndex = cursor.getColumnIndex("idServer");
                 int idColIndex = cursor.getColumnIndex("id");
                 int eventIdColIndex = cursor.getColumnIndex("eventId");
                 int titleColIndex = cursor.getColumnIndex("title");
                 int filepathColIndex = cursor.getColumnIndex("filepath");
                 do{
                     Document document = new Document();
+                    document.setIdServer(cursor.getLong(idServerColIndex));
                     document.setId(cursor.getLong(idColIndex));
                     document.setEventId(cursor.getLong(eventIdColIndex));
                     document.setTitle(cursor.getString(titleColIndex));
@@ -178,13 +182,32 @@ public class DBHelper extends SQLiteOpenHelper{
         Log.d("tclog", "DBHelper: "  + deleteCount + " document deleted");
     }
 
-    public boolean isPhotoExists(final long photoId){
+    public boolean doesPhotoExists(final long photoId){
         db = getWritableDatabase();
         db.beginTransaction();
         try {
             String selection = "id = ?";
             String[] selectionArgs = new String[] {((Long) photoId).toString() };
             cursor = db.query("photos", null, selection, selectionArgs, null, null, null);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+        if(cursor != null) {
+            if (cursor.moveToFirst())
+                return true;
+            else return false;
+        }
+        return false;
+    }
+
+    public boolean doesDocumentExists(final long documentIdServer){
+        db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            String selection = "idServer = ?";
+            String[] selectionArgs = new String[] {((Long) documentIdServer).toString() };
+            cursor = db.query("documents", null, selection, selectionArgs, null, null, null);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();

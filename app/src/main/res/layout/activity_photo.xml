@@ -30,6 +30,13 @@
         android:layout_height="100dp"
         android:layout_below="@+id/upload_photo"
         />
+    <Button
+        android:id="@+id/save_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/image_photo"
+        android:text="Save File"/>
 
 
 

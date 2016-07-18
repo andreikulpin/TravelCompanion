@@ -11,6 +11,10 @@
         android:title="@string/menu_refresh_photos"
         android:orderInCategory="1"
         app:showAsAction="ifRoom"/>
+    <item android:id="@+id/download_documents"
+        android:title="@string/menu_refresh_documents"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/attach_photo"
         android:title="@string/menu_attach_photo"
         android:icon="@mipmap/ic_plus_white_24dp"

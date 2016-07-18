@@ -4,12 +4,10 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +15,7 @@ import android.widget.GridView;
 
 import com.kulpin.project.travelcompanion.adapter.GridViewAdapter;
 import com.kulpin.project.travelcompanion.controller.PhotoController;
+import com.kulpin.project.travelcompanion.dto.Document;
 import com.kulpin.project.travelcompanion.dto.Link;
 import com.kulpin.project.travelcompanion.dto.Photo;
 import com.kulpin.project.travelcompanion.utilities.Constants;
@@ -198,22 +197,33 @@ public class GalleryActivity extends BasicActivity {
     }
 
     @Override
-    public boolean isPhotoExistsLocally(long photoId) {
-        return dbHelper.isPhotoExists(photoId);
+    public boolean doesPhotoExistsLocally(long photoId) {
+        return dbHelper.doesPhotoExists(photoId);
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, Link link) {
 
     }
-
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
 
     }
-
     @Override
     public void addLink(Link link) {
 
+    }
+
+    @Override
+    public void addDocumentToLocalDB(Document document) {
+
+    }
+    @Override
+    public void updateDocuments() {
+
+    }
+    @Override
+    public boolean doesDocumentExistsLocally(long documentId) {
+        return false;
     }
 }
